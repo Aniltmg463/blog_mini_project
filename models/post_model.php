@@ -9,7 +9,7 @@ class post_model
         $this->conn = $db;
     }
 
-    public function read()
+    /*  public function read()
     {
         $query = "SELECT * FROM $this->table";
         $result = $this->conn->query($query);
@@ -19,7 +19,23 @@ class post_model
             $data[] = $row;
         }
         return $data;
+    } */
+
+    public function read()
+    {
+        $query = "SELECT posts.*, users.name AS user_name 
+              FROM posts 
+              LEFT JOIN users ON posts.user_id = users.user_id";
+
+        $result = $this->conn->query($query);
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
     }
+
 
     public function create($title, $body, $date)
     {
@@ -29,6 +45,24 @@ class post_model
         return $result;
     }
 
+    public function readOne($id)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE post_id = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+        return $row;
+    }
+
+    public function update($id, $title, $body, $date)
+    {
+        $stmt = $this->conn->prepare("UPDATE posts SET title = ?, body = ?, date = ? WHERE post_id = ?");
+        $stmt->bind_param("sssi", $title, $body, $date,  $id);
+        return $stmt->execute();
+    }
 
     public function delete($id)
     {
