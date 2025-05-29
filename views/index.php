@@ -3,6 +3,14 @@
 include 'layout/header.php';
 ?>
 
+<?php if (isset($_SESSION['email'])): ?>
+    <p class="text-red-500 text-center mb-4">
+        <?php
+        echo "Welcome" . " : " . $_SESSION['email'];
+        // unset($_SESSION['email']);
+        ?>
+    </p>
+<?php endif; ?>
 
 <a href="?action=create">Add New Post</a>
 

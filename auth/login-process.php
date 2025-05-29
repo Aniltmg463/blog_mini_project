@@ -34,8 +34,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $student = $result->fetch_assoc();
 
         if ($student) {
+
+
+
             $_SESSION['email'] = $email;
-            $_SESSION['user_id'] = $student['id'];
+
+            // echo "<pre>";
+            // print_r($_SESSION['email']);
+            // echo "</pre>";
+            // die;
+
+            // $_SESSION['user_id'] = $student['id'];
+
+            // $_SESSION['msg'] = $student['login success'];
+
             header("Location: ../index.php");
             exit;
         } else {
