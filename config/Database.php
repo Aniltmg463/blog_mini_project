@@ -7,6 +7,17 @@ class Database
     private $password = "";
     public $conn;
 
+    /*    public function connect()
+    {
+        $this->conn = new PDO(
+            "mysql:host=$this->host;dbname=$this->db_name",
+            $this->username,
+            $this->password
+        );
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $this->conn;
+    } */
+
     public function connect()
     {
         $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
