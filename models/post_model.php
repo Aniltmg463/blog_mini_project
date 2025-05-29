@@ -20,4 +20,42 @@ class post_model
         }
         return $data;
     }
+
+    public function create($title, $body, $date)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO posts (title, body, date) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $title, $body, $date);
+        $result =  $stmt->execute();
+        return $result;
+    }
+
+    public function readOne($id)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE post_id = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+        return $row;
+    }
+
+    public function update($id, $title, $body, $date)
+    {
+        $stmt = $this->conn->prepare("UPDATE posts SET title = ?, body = ?, date = ? WHERE post_id = ?");
+        $stmt->bind_param("sssi", $title, $body, $date,  $id);
+        return $stmt->execute();
+    }
+
+    public function delete($id)
+    {
+        $id = (int)$this->conn->real_escape_string($id);
+        $query = "DELETE FROM " . $this->table . " WHERE post_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
 }

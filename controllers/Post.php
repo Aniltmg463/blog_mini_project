@@ -1,5 +1,5 @@
 <?php
-require_once 'models/post_model.php'; // make sure the path is correct
+require_once 'models/post_model.php';
 
 class Post
 {
@@ -10,34 +10,24 @@ class Post
     public function __construct($db)
     {
         $this->conn = $db;
-        $this->model = new post_model($db); // Pass DB to model
+        $this->model = new post_model($db);
     }
 
-    public function create($title, $body, $date)
+    public function create()
     {
-        $stmt = $this->conn->prepare("INSERT INTO $this->table (title, body, date) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $title, $body, $date);
-        if (!$stmt) {
-            die("Prepare failed: " . $this->conn->error);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = $_POST['title'];
+            $body = $_POST['body'];
+            $date = $_POST['date'];
+            $this->model->create($title, $body, $date);
+            header('Location: index.php');
+        } else {
+            include 'views/post/create.php';
         }
-        return $stmt->execute();
     }
 
     public function read()
     {
-        /* $result = $this->conn->query("SELECT * FROM $this->table");
-        $posts = [];
-        while ($row = $result->fetch_assoc()) {
-            $posts[] = $row;
-        }
-        return $posts; */
-
-        /*   echo "<pre>";
-        print_r($model = $this->conn->read());
-        die;
-        echo "</pre>"; */
-
-
         return $this->model->read();
         include 'views/index.php';
     }
@@ -51,17 +41,29 @@ class Post
         return $result->fetch_assoc();
     }
 
-    public function update($id, $title, $body, $date)
+    public function update()
     {
-        $stmt = $this->conn->prepare("UPDATE $this->table SET title = ?, body = ?, date = ? WHERE post_id = ?");
-        $stmt->bind_param("sssi", $title, $body, $date, $id);
-        return $stmt->execute();
+        // $stmt = $this->conn->prepare("UPDATE $this->table SET title = ?, body = ?, date = ? WHERE post_id = ?");
+        // $stmt->bind_param("sssi", $title, $body, $date, $id);
+        // return $stmt->execute();
+        $id = $_GET['id'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = $_POST['title'];
+            $body = $_POST['body'];
+            $date = $_POST['date'];
+            $this->model->update($id, $title, $body, $date);
+            header('Location: index.php');
+        } else {
+            $this->model->readOne($id);
+            include 'views/post/edit.php';
+        }
     }
-
-    public function delete($id)
+    public function delete()
     {
-        $stmt = $this->conn->prepare("DELETE FROM $this->table WHERE post_id = ?");
-        $stmt->bind_param("i", $id);
-        return $stmt->execute();
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        if ($this->model->delete($id)) {
+            header("Location: index.php");
+            exit;
+        }
     }
 }

@@ -75,6 +75,8 @@ This is a simple blog CRUD application built using PHP and MySQL. It follows the
 project/
 ├── config/ # Database config
 │ └── database.php
+├── models # Database config
+│ └──post_model.php
 │
 ├── controllers/ # Controller classes
 │ └── Post.php
@@ -89,3 +91,8 @@ project/
 │ └── layouts/
 │
 └── index.php # Entry point
+
+
+echo "<pre>";
+print_r($posts);
+echo "</pre>";
