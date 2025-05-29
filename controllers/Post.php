@@ -1,12 +1,16 @@
 <?php
+require_once 'models/post_model.php'; // make sure the path is correct
+
 class Post
 {
     private $conn;
     private $table = "posts";
+    private $model;
 
     public function __construct($db)
     {
         $this->conn = $db;
+        $this->model = new post_model($db); // Pass DB to model
     }
 
     public function create($title, $body, $date)
@@ -21,12 +25,21 @@ class Post
 
     public function read()
     {
-        $result = $this->conn->query("SELECT * FROM $this->table");
+        /* $result = $this->conn->query("SELECT * FROM $this->table");
         $posts = [];
         while ($row = $result->fetch_assoc()) {
             $posts[] = $row;
         }
-        return $posts;
+        return $posts; */
+
+        /*   echo "<pre>";
+        print_r($model = $this->conn->read());
+        die;
+        echo "</pre>"; */
+
+
+        return $this->model->read();
+        include 'views/index.php';
     }
 
     public function readOne($id)

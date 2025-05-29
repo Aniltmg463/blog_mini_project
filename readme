@@ -83,8 +83,8 @@ project/
 │ └── post_models.php
 │
 ├── views/ # View files (HTML/PHP)
-│ ├── create.php
-│ ├── edit.php
+│ ├── post/create.php
+│ ├── post/edit.php
 │ ├── index.php
 │ └── layouts/
 │

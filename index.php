@@ -1,13 +1,15 @@
 <?php
 require_once 'config/Database.php';
 require_once 'controllers/Post.php';
+require_once 'models/post_model.php';
 
 // $db = (new Database())->connect();
 $db = new Database();
 $db = $db->connect();
 $post = new Post($db);
 
-$action = $_GET['action'] ?? 'index';
+// $action = $_GET['action'] ?? 'index';
+$action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($action) {
     case 'create':
