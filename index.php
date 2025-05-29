@@ -1,8 +1,10 @@
 <?php
 require_once 'config/Database.php';
-require_once 'classes/Post.php';
+require_once 'controllers/Post.php';
 
-$db = (new Database())->connect();
+// $db = (new Database())->connect();
+$db = new Database();
+$db = $db->connect();
 $post = new Post($db);
 
 $action = $_GET['action'] ?? 'index';
@@ -10,21 +12,30 @@ $action = $_GET['action'] ?? 'index';
 switch ($action) {
     case 'create':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $post->create($_POST['title'], $_POST['body']);
+            /* $post->create($_POST['title'], $_POST['body']);
+            header('Location: index.php'); */
+            $title = $_POST['title'];
+            $body = $_POST['body'];
+            $date = $_POST['date'];
+            $post->create($title, $body, $date);
             header('Location: index.php');
         } else {
-            include 'views/create.php';
+            include 'views/post/create.php';
         }
         break;
 
     case 'edit':
         $id = $_GET['id'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $post->update($id, $_POST['title'], $_POST['body']);
+            // $post->update($id, $_POST['title'], $_POST['body']);
+            $title = $_POST['title'];
+            $body = $_POST['body'];
+            $date = $_POST['date'];
+            $post->update($id, $title, $body, $date);
             header('Location: index.php');
         } else {
             $data = $post->readOne($id);
-            include 'views/edit.php';
+            include 'views/post/edit.php';
         }
         break;
 

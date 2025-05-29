@@ -1,0 +1,91 @@
+
+Posts:
+post_id pk
+user_id fk
+title 
+body
+date
+created_id
+updated_id
+
+Users:
+user_id pk
+name
+email
+phone
+password
+created_at
+updated_at
+
+Comments:
+comment_id pk
+post_id fk
+user_id fk
+user_email
+comment_date
+comment_text
+
+PostToComments:
+post_id pk
+category_id pk
+
+Categories:
+category_id pk
+category_url unique
+category_name
+category_description
+
+// SQL Query
+ALTER TABLE posts CHANGE COLUMN id post_id INT AUTO_INCREMENT;
+
+ALTER TABLE posts
+ADD COLUMN date DATE DEFAULT NULL,
+ADD COLUMN created_id INT,
+ADD COLUMN updated_id INT;
+
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+ALTER TABLE posts
+DROP COLUMN created_id,
+DROP COLUMN updated_id;
+
+ALTER TABLE users
+DROP COLUMN created_at,
+DROP COLUMN updated_at;
+
+ALTER TABLE posts
+ADD COLUMN user_id INT,
+ADD CONSTRAINT fk_user
+FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+
+
+# Blog CRUD Application
+This is a simple blog CRUD application built using PHP and MySQL. It follows the MVC (Model-View-Controller) architecture pattern.
+# Project Structure
+project/
+├── config/ # Database config
+│ └── database.php
+│
+├── controllers/ # Controller classes
+│ └── Post.php
+├── models/ # Model classes
+│ ├── User.php
+│ └── post_models.php
+│
+├── views/ # View files (HTML/PHP)
+│ ├── create.php
+│ ├── edit.php
+│ ├── index.php
+│ └── layouts/
+│
+└── index.php # Entry point
