@@ -19,7 +19,8 @@ class Post
             $title = $_POST['title'];
             $body = $_POST['body'];
             $date = $_POST['date'];
-            $this->model->create($title, $body, $date);
+            $userid = $_POST['userid'];
+            $this->model->create($title, $body, $date, $userid);
             header('Location: index.php');
         } else {
             include 'views/post/create.php';

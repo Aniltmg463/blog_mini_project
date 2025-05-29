@@ -25,10 +25,10 @@ class post_model
     }
 
 
-    public function create($title, $body, $date)
+    public function create($title, $body, $date, $userid)
     {
-        $stmt = $this->conn->prepare("INSERT INTO posts (title, body, date) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $title, $body, $date);
+        $stmt = $this->conn->prepare("INSERT INTO posts (title, body, date, user_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("sssi", $title, $body, $date, $userid);
         $result =  $stmt->execute();
         return $result;
     }

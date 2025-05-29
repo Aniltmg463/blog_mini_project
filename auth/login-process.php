@@ -34,9 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $student = $result->fetch_assoc();
 
         if ($student) {
-
-
-
             $_SESSION['email'] = $email;
 
             // echo "<pre>";
@@ -45,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // die;
 
             // $_SESSION['user_id'] = $student['id'];
-
             // $_SESSION['msg'] = $student['login success'];
 
             header("Location: ../index.php");
