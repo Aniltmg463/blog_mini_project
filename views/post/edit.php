@@ -4,6 +4,8 @@
     <label>Content:</label>
     <textarea name="body" placeholder="Text Area" Test Area><?= $data['body'] ?></textarea><br>
     <label>Date:</label>
-    <input type="date" name="date"><br><br>
+    <?= $data['date'] ?>
+    <input type="date" name="date">
+    <br><br>
     <button type="submit">Update</button>
 </form>

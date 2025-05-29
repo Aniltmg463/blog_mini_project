@@ -27,6 +27,8 @@ switch ($action) {
 
     case 'edit':
         $post->update();
+
+
         break;
 
     case 'delete':

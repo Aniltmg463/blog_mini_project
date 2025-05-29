@@ -32,20 +32,8 @@ class Post
         include 'views/index.php';
     }
 
-    public function readOne($id)
-    {
-        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE post_id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
-    }
-
     public function update()
     {
-        // $stmt = $this->conn->prepare("UPDATE $this->table SET title = ?, body = ?, date = ? WHERE post_id = ?");
-        // $stmt->bind_param("sssi", $title, $body, $date, $id);
-        // return $stmt->execute();
         $id = $_GET['id'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = $_POST['title'];
@@ -54,7 +42,7 @@ class Post
             $this->model->update($id, $title, $body, $date);
             header('Location: index.php');
         } else {
-            $this->model->readOne($id);
+            $data = $this->model->readOne($id);
             include 'views/post/edit.php';
         }
     }

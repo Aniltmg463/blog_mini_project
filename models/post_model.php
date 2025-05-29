@@ -9,18 +9,6 @@ class post_model
         $this->conn = $db;
     }
 
-    /*  public function read()
-    {
-        $query = "SELECT * FROM $this->table";
-        $result = $this->conn->query($query);
-
-        $data = [];
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
-    } */
-
     public function read()
     {
         $query = "SELECT posts.*, users.name AS user_name 
