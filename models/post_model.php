@@ -1,13 +1,9 @@
 <?php
-class post_model
-{
-    private $conn;
-    private $table = 'posts'; // match your table name
+require_once 'core/Model.php';
 
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
+class post_model extends Model
+{
+    private $table = 'posts'; // match your table name
 
     public function read()
     {

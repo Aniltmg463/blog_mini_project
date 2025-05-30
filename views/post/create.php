@@ -1,15 +1,8 @@
-<!-- <form method="post" action="?action=create">
-    <input type="text" name="title" placeholder="Title"><br>
-    <textarea name="body" placeholder="Content"></textarea><br>
-    <button type="submit">Create</button>
-</form> -->
-
-<!-- views/create.php -->
-
 <?php
-require_once 'config/Database.php';
-$db = new Database();
-$conn = $db->connect();
+require_once 'models/post_model.php';
+
+$db = new post_model();
+$conn = $db->getConnection();
 
 $email = $_SESSION['email'] ?? '';
 
@@ -75,11 +68,11 @@ $user = $result->fetch_assoc();
 
     <!-- Initialize Summernote -->
     <script>
-    $(document).ready(function() {
-        $('#body').summernote({
-            height: 250
+        $(document).ready(function() {
+            $('#body').summernote({
+                height: 250
+            });
         });
-    });
     </script>
 </body>
 
