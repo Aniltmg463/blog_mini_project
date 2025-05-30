@@ -58,8 +58,21 @@ class post_model extends Model
         $stmt->close();
         return $result;
     }
+    public function getUserByEmail($email)
+    {
+        $query = "SELECT user_id, name FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
 
 
+
+    //this is only for testing purposes
     public function readtry()
     {
         $query = "SELECT * from users";

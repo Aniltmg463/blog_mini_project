@@ -2,16 +2,8 @@
 require_once 'models/post_model.php';
 
 $db = new post_model();
-$conn = $db->getConnection();
-
 $email = $_SESSION['email'] ?? '';
-
-$query = "SELECT user_id, name FROM users WHERE email = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$user = $db->getUserByEmail($email);
 ?>
 
 <!DOCTYPE html>

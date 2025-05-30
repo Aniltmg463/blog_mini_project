@@ -2,22 +2,14 @@
 
 session_start();
 
-// Redirect unauthenticated users to login
 if (!isset($_SESSION['email'])) {
     header('Location: auth/login.php');
     exit();
 }
 
-// require_once 'config/Database.php';
-// require_once 'controllers/Post.php';
-// require_once 'models/post_model.php';
-
 require_once 'controllers/Post.php';
 $post = new Post();
 
-// $db = new Database();
-// $db = $db->connect();
-// $post = new Post($db);
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
