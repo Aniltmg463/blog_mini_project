@@ -62,4 +62,18 @@ class post_model
         $stmt->close();
         return $result;
     }
+
+
+    public function readtry()
+    {
+        $query = "SELECT * from users";
+
+        $result = $this->conn->query($query);
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
 }
