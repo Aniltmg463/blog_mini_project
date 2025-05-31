@@ -3,15 +3,21 @@
 This is a simple blog CRUD application built using PHP and MySQL. It follows the MVC (Model-View-Controller) architecture pattern.
 # Project Structure
 project/
-├── config/ # Database config
-│ └── database.php
-├── models # Database config
-│ └──post_model.php
+├──auth 
+│ └──AuthInterface.php
+│ ├── User.php
+│ ├── Student.php
+│ ├── login.php
+│ ├── login-process.php
+│ ├── logout.php
+│ ├── signup.php
+│ ├── signup-process
+├── core # Database config
+│ └──Model.php
 │
 ├── controllers/ # Controller classes
 │ └── Post.php
 ├── models/ # Model classes
-│ ├── User.php
 │ └── post_models.php
 │
 ├── views/ # View files (HTML/PHP)
@@ -21,6 +27,7 @@ project/
 │ └── layouts/ ->header.php,footer.php
 │
 └── index.php # Entry point
+└── readme # notes
 
 
 echo "<pre>";
