@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         $_SESSION['msg'] = "Signup successful. Please login.";
-        header("Location: login.php");
+        header("Location: auth/login.php");
         exit;
     } else {
         $_SESSION['msg'] = "Signup failed. Please try again.";
-        header("Location: signup.php");
+        header("Location: auth/signup.php");
         exit;
     }
 }

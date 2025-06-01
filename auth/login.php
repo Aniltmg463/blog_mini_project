@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ session_start();
     </div>
     <?php endif; ?>
 
-    <form method="POST" action="login-process.php">
+    <form method="POST" action="auth/login-process.php">
         <label for="email">Email:</label>
         <input type="email" name="email" required placeholder="Enter email">
 

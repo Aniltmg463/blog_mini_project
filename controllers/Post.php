@@ -10,6 +10,18 @@ class Post
         $this->model = new post_model();
     }
 
+    public function view()
+    {
+        $id = $_GET['id'];
+        if (isset($id) && is_numeric($id)) {
+            $postDetails = $this->model->readOne($id);
+            include __DIR__ . '/../views/post/view.php';
+        } else {
+            header('Location: index.php');
+            exit();
+        }
+    }
+
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
