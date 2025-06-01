@@ -2,10 +2,10 @@
 session_start();
 
 //old auth
-// if (!isset($_SESSION['email'])) {
-//     header('Location: auth/login.php');
-//     exit();
-// }
+if (!isset($_SESSION['email'])) {
+    header('Location: auth/login.php');
+    exit();
+}
 
 //new auth
 // session_start();
@@ -20,18 +20,6 @@ $post = new Post();
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($action) {
-    case 'login':
-        // $post->view();
-        include __DIR__ . '/auth/login.php';
-        break;
-    case 'signup':
-        // $post->view();
-        include __DIR__ . '/auth/signup.php';
-        break;
-    case 'view':
-        $post->view();
-        break;
-
     case 'create':
         $post =  $post->create();
         break;
