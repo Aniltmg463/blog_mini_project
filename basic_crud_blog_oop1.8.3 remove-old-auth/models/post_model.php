@@ -74,7 +74,7 @@ class post_model extends Model
 
 
 
-    //this is only for testing purposes you can remove it later
+    //this is only for testing purposes
     public function readtry()
     {
         $query = "SELECT * from users";

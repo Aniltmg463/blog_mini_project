@@ -1,0 +1,81 @@
+
+# Blog CRUD Application
+This is a simple blog CRUD application built using PHP and MySQL. It follows the MVC (Model-View-Controller) architecture pattern.
+# Project Structure
+project/
+├──auth 
+│ └──AuthInterface.php
+│ ├── User.php
+│ ├── Student.php
+│ ├── login.php
+│ ├── login-process.php
+│ ├── logout.php
+│ ├── signup.php
+│ ├── signup-process
+├── core # Database config
+│ └──Model.php
+│
+├── controllers/ # Controller classes
+│ └── Post.php
+│
+├── models/ # Model classes
+│ └── post_models.php
+│ └── CategoryModel.php
+│
+├── views/ # View files (HTML/PHP)
+│ ├── post/ ->create.php, edit.php, view.php
+│ ├── layout/header.php, footer.php
+│ ├── partials/alert.php
+│ ├── index.php
+│ ├── home.php
+│ └── layouts/ ->header.php,footer.php
+│
+└── index.php # Entry point
+
+
+echo "<pre>";
+print_r($posts);
+echo "</pre>";
+
+ <?php 
+ echo "<pre>";
+ print_r($category);
+ echo "</pre>"; 
+ ?>
+
+
+Posts:
+post_id pk
+user_id fk
+title 
+body
+date
+; created_id
+; updated_id
+
+Users:
+user_id pk
+name
+email
+phone
+password
+; created_at
+; updated_at
+
+Comments:
+comment_id pk
+post_id fk
+user_id fk
+user_email
+comment_date
+comment_text
+
+PostToComments:
+post_id pk
+category_id pk
+
+Categories:
+category_id pk
+category_url unique
+category_name
+category_description
