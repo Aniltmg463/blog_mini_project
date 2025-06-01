@@ -1,33 +1,36 @@
 <?php
-require_once __DIR__ . '/../models/post_model.php';
+require_once 'models/post_model.php';
 
 class Post
 {
+    private $conn;
+    private $table = "posts";
     private $model;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->model = new post_model();
+        $this->conn = $db;
+        $this->model = new post_model($db);
     }
 
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = $_POST['title'];
-            $body = strip_tags($_POST['body']);
+            $body = $_POST['body'];
             $date = $_POST['date'];
             $userid = $_POST['userid'];
             $this->model->create($title, $body, $date, $userid);
             header('Location: index.php');
         } else {
-            include __DIR__ . '/../views/post/create.php';
+            include 'views/post/create.php';
         }
     }
 
     public function read()
     {
         return $this->model->read();
-        include __DIR__ . '/../views/index.php';
+        include 'views/index.php';
     }
 
     public function update()
@@ -41,10 +44,9 @@ class Post
             header('Location: index.php');
         } else {
             $data = $this->model->readOne($id);
-            include __DIR__ . '/../views/post/edit.php';
+            include 'views/post/edit.php';
         }
     }
-
     public function delete()
     {
         $id = isset($_GET['id']) ? $_GET['id'] : null;

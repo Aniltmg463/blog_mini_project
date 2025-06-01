@@ -1,11 +1,13 @@
 <?php
-// require_once 'core/Model.php';
-require_once __DIR__ . '/../core/Model.php'; // ✅ Correct
-
-
-class post_model extends Model
+class post_model
 {
+    private $conn;
     private $table = 'posts'; // match your table name
+
+    public function __construct($db)
+    {
+        $this->conn = $db;
+    }
 
     public function read()
     {
@@ -60,21 +62,8 @@ class post_model extends Model
         $stmt->close();
         return $result;
     }
-    public function getUserByEmail($email)
-    {
-        $query = "SELECT user_id, name FROM users WHERE email = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-        $stmt->close();
-        return $user;
-    }
 
 
-
-    //this is only for testing purposes you can remove it later
     public function readtry()
     {
         $query = "SELECT * from users";

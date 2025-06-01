@@ -1,9 +1,24 @@
-<?php
-require_once 'models/post_model.php';
+<!-- <form method="post" action="?action=create">
+    <input type="text" name="title" placeholder="Title"><br>
+    <textarea name="body" placeholder="Content"></textarea><br>
+    <button type="submit">Create</button>
+</form> -->
 
-$db = new post_model();
+<!-- views/create.php -->
+
+<?php
+require_once 'config/Database.php';
+$db = new Database();
+$conn = $db->connect();
+
 $email = $_SESSION['email'] ?? '';
-$user = $db->getUserByEmail($email);
+
+$query = "SELECT user_id, name FROM users WHERE email = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -60,11 +75,11 @@ $user = $db->getUserByEmail($email);
 
     <!-- Initialize Summernote -->
     <script>
-        $(document).ready(function() {
-            $('#body').summernote({
-                height: 250
-            });
+    $(document).ready(function() {
+        $('#body').summernote({
+            height: 250
         });
+    });
     </script>
 </body>
 
