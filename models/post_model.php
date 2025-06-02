@@ -44,19 +44,7 @@ class post_model extends Model
     }
 
 
-    public function read_user()
-    {
-        $query = "SELECT * FROM users ORDER BY user_id ASC";
-        $result = $this->conn->query($query);
-        if (!$result) {
-            die("Query failed: " . $this->conn->error);
-        }
-        $data = [];
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
-    }
+
 
     public function read()
     {

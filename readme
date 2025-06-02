@@ -16,7 +16,7 @@ project/
 │ └── post_models.php
 │
 ├── views/ # View files (HTML/PHP)
-│ ├── post/ ->create.php,edit.php,view.php,user.php
+│ ├── post/ ->create.php,edit.php,view.php
 │ ├── partials/alert.php
 │ ├── index.php
 │ └── layouts/ ->header.php,footer.php

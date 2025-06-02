@@ -39,11 +39,6 @@ switch ($action) {
     case 'delete':
         $post->delete();
         break;
-    case 'user':
-        $post->read_user();
-        // include 'views/index.php';
-        break;
-
     default:
         $posts = $post->read();
         include 'views/index.php';
