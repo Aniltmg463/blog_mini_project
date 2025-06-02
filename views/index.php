@@ -1,4 +1,5 @@
-<?php include 'layout/header.php'; ?>
+<?php include 'layout/header.php';
+?>
 
 <!-- Bootstrap 5 CSS CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,8 +49,6 @@
                         <a href="?action=delete&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-danger"
                             onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
                         <?php endif; ?>
-
-
                     </td>
                 </tr>
                 <?php endforeach; ?>

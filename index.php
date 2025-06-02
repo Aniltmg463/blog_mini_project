@@ -15,33 +15,33 @@ session_start();
 // }
 
 require_once 'controllers/Post.php';
-$post = new Post();
+require_once 'models/post_model.php';
 
+$post = new Post();
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($action) {
     case 'login':
-        // $post->view();
-        include __DIR__ . '/auth/login.php';
+        $post->login();
         break;
     case 'signup':
-        // $post->view();
-        include __DIR__ . '/auth/signup.php';
+        $post->signup();
         break;
     case 'view':
         $post->view();
         break;
-
     case 'create':
-        $post =  $post->create();
+        $post->create();
         break;
-
     case 'edit':
         $post->update();
         break;
-
     case 'delete':
         $post->delete();
+        break;
+    case 'user':
+        $post->read_user();
+        // include 'views/index.php';
         break;
 
     default:

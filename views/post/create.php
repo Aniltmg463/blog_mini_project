@@ -60,11 +60,11 @@ $user = $db->getUserByEmail($email);
 
     <!-- Initialize Summernote -->
     <script>
-        $(document).ready(function() {
-            $('#body').summernote({
-                height: 250
-            });
+    $(document).ready(function() {
+        $('#body').summernote({
+            height: 250
         });
+    });
     </script>
 </body>
 

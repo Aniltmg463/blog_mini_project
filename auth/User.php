@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/AuthInterface.php';
 
 abstract class User implements AuthInterface
@@ -15,6 +14,5 @@ abstract class User implements AuthInterface
         $this->db = $db;
     }
 
-    // Force child classes to implement login()
     abstract public function login($email, $password): bool;
 }

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/User.php';
 
-class Student extends User
+class Admin extends User
 {
     public function login($email, $password): bool
     {
@@ -11,7 +11,7 @@ class Student extends User
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        if ($user && password_verify($password, $user['password']) && $user['role'] === 'student') {
+        if ($user && password_verify($password, $user['password']) && $user['role'] === 'admin') {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
