@@ -42,14 +42,14 @@
 
     <h2>Login</h2>
 
-    <?php if (isset($_SESSION['error'])): ?>
+    <?php if (isset($_SESSION['msg'])): ?>
     <div class="message">
-        <?= $_SESSION['error'];
-            unset($_SESSION['error']); ?>
+        <?= $_SESSION['msg'];
+            unset($_SESSION['msg']); ?>
     </div>
     <?php endif; ?>
 
-    <form method="POST" action="../index.php?action=login">
+    <form method="POST" action="auth/login-process.php">
         <label for="email">Email:</label>
         <input type="email" name="email" required placeholder="Enter email">
 
