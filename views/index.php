@@ -49,6 +49,8 @@
                         <a href="?action=delete&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-danger"
                             onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
                         <?php endif; ?>
+
+
                     </td>
                 </tr>
                 <?php endforeach; ?>

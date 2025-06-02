@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/../../controllers/Post.php';
 session_start();
+require_once __DIR__ . '/../../controllers/Post.php';
+// session_start();
 
 // Check if user is logged in
 if (!isset($_SESSION['user_email'])) {
@@ -41,7 +42,7 @@ $users = $postController->read_user();
 </head>
 
 <body>
-    <h2>Welcome, User!</h2>
+    <h2>Welcome, Admin Dashboard!</h2>
 
     <p><strong>Email:</strong> <?php echo htmlspecialchars($userEmail); ?></p>
     <p><strong>Role:</strong> <?php echo htmlspecialchars($userRole); ?></p>
@@ -59,6 +60,7 @@ $users = $postController->read_user();
                 <th>Email</th>
                 <th>phone</th>
                 <th>Role</th>
+                <th>Action</th>
 
             </tr>
         </thead>
@@ -70,6 +72,16 @@ $users = $postController->read_user();
                 <td><?php echo htmlspecialchars($user['email']); ?></td>
                 <td><?php echo htmlspecialchars($user['phone']); ?></td>
                 <td><?php echo htmlspecialchars($user['role']); ?></td>
+
+                <td>
+                    <a href="?action=view&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-primary"> view</a>
+                    <a href="?action=edit&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-primary">✏️ Edit</a>
+                    <a href="?action=delete&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
+
+
+
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
