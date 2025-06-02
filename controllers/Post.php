@@ -10,59 +10,90 @@ class Post
         $this->model = new post_model();
     }
 
-    public function view()
+    public function read()
     {
-        $id = $_GET['id'];
-        if (isset($id) && is_numeric($id)) {
-            $postDetails = $this->model->readOne($id);
-            include __DIR__ . '/../views/post/view.php';
-        } else {
-            header('Location: index.php');
-            exit();
-        }
+        return $this->model->read();
     }
 
     public function create()
     {
+        // session_start();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = $_POST['title'];
-            $body = strip_tags($_POST['body']);
-            $date = $_POST['date'];
-            $userid = $_POST['userid'];
-            $this->model->create($title, $body, $date, $userid);
-            header('Location: index.php');
-        } else {
-            include __DIR__ . '/../views/post/create.php';
+            $title = $_POST['title'] ?? '';
+            $body = $_POST['body'] ?? '';
+            $date = $_POST['date'] ?? '';
+            $user_id = $_POST['userid'] ?? 0;
+
+            if ($this->model->create($title, $body, $date, $user_id)) {
+                $_SESSION['msg'] = 'Post created successfully!';
+                header('Location: index.php');
+                exit;
+            } else {
+                $_SESSION['msg'] = 'Failed to create post.';
+            }
         }
+        include __DIR__ . '/../views/post/create.php';
     }
 
-    public function read()
+    public function view()
     {
-        return $this->model->read();
-        include __DIR__ . '/../views/index.php';
+        // session_start();
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $postDetails = $this->model->readOne($id);
+            include __DIR__ . '/../views/post/view.php';
+        } else {
+            $_SESSION['msg'] = 'Invalid post ID.';
+            header('Location: index.php');
+            exit;
+        }
     }
 
     public function update()
     {
-        $id = $_GET['id'];
+        session_start();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = $_POST['title'];
-            $body = $_POST['body'];
-            $date = $_POST['date'];
-            $this->model->update($id, $title, $body, $date);
-            header('Location: index.php');
-        } else {
+            $id = $_GET['id'] ?? 0;
+            $title = $_POST['title'] ?? '';
+            $body = $_POST['body'] ?? '';
+            $date = $_POST['date'] ?? '';
+
+            if ($this->model->update($id, $title, $body, $date)) {
+                $_SESSION['msg'] = 'Post updated successfully!';
+                header('Location: index.php');
+                exit;
+            } else {
+                $_SESSION['msg'] = 'Failed to update post.';
+            }
+        }
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
             $data = $this->model->readOne($id);
             include __DIR__ . '/../views/post/edit.php';
+        } else {
+            $_SESSION['msg'] = 'Invalid post ID.';
+            header('Location: index.php');
+            exit;
         }
     }
 
     public function delete()
     {
-        $id = isset($_GET['id']) ? $_GET['id'] : null;
-        if ($this->model->delete($id)) {
-            header("Location: index.php");
+        session_start();
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            if ($this->model->delete($id)) {
+                $_SESSION['msg'] = 'Post deleted successfully!';
+            } else {
+                $_SESSION['msg'] = 'Failed to delete post.';
+            }
+            header('Location: index.php');
             exit;
         }
+    }
+
+    public function getUserByEmail($email)
+    {
+        return $this->model->getUserByEmail($email);
     }
 }

@@ -8,6 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
+    $role = trim($_POST['role']);
+
+    if (!in_array($role, ['student', 'admin'])) {
+        $_SESSION['error'] = "Invalid role selected.";
+        header("Location: signup.php");
+        exit;
+    }
 
     // Basic validation
     if (empty($name) || empty($email) || empty($password)) {
@@ -33,12 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert user (you can also hash the password here)
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $name, $email, $password);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?,?)");
+    $stmt->bind_param("ssss", $name, $email, $password, $role);
 
     if ($stmt->execute()) {
         $_SESSION['msg'] = "Signup successful. Please login.";
-        header("Location: auth/login.php");
+        header("Location: login.php");
         exit;
     } else {
         $_SESSION['msg'] = "Signup failed. Please try again.";

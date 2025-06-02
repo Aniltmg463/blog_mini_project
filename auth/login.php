@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -8,33 +8,33 @@
 <head>
     <title>Login</title>
     <style>
-    body {
-        font-family: Arial;
-        padding: 20px;
-    }
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
 
-    form {
-        width: 300px;
-        margin: auto;
-    }
+        form {
+            width: 300px;
+            margin: auto;
+        }
 
-    input[type="email"],
-    input[type="password"] {
-        width: 100%;
-        padding: 8px;
-        margin: 5px 0 15px;
-    }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+        }
 
-    input[type="submit"] {
-        padding: 8px 16px;
-        cursor: pointer;
-    }
+        input[type="submit"] {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
 
-    .message {
-        color: red;
-        margin-bottom: 15px;
-        text-align: center;
-    }
+        .message {
+            color: red;
+            margin-bottom: 15px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -42,14 +42,14 @@
 
     <h2>Login</h2>
 
-    <?php if (isset($_SESSION['msg'])): ?>
-    <div class="message">
-        <?= $_SESSION['msg'];
-            unset($_SESSION['msg']); ?>
-    </div>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="message">
+            <?= $_SESSION['error'];
+            unset($_SESSION['error']); ?>
+        </div>
     <?php endif; ?>
 
-    <form method="POST" action="auth/login-process.php">
+    <form method="POST" action="login-process.php">
         <label for="email">Email:</label>
         <input type="email" name="email" required placeholder="Enter email">
 
