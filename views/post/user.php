@@ -8,90 +8,72 @@ if (!isset($_SESSION['user_email'])) {
     exit;
 }
 
+// Access session values
 $userEmail = $_SESSION['user_email'];
 $userRole = $_SESSION['user_role'] ?? 'N/A';
 
-// Fetch posts instead of users
+// Use public method to get users
 $postController = new Post();
-$posts = $postController->read(); // assuming this gets all posts
+$users = $postController->read_user();
 ?>
 
-<?php include '../layout/header.php'; ?>
+<!DOCTYPE html>
+<html>
 
-<!-- Bootstrap 5 CSS CDN -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<head>
+    <title>User Page</title>
+    <style>
+    table {
+        border-collapse: collapse;
+        width: 80%;
+    }
 
-<div class="container py-5">
+    th,
+    td {
+        border: 1px solid #999;
+        padding: 8px;
+    }
 
-    <div class="alert alert-info text-center">
-        Welcome: <strong><?= htmlspecialchars($userEmail) ?></strong> | Role:
-        <strong><?= htmlspecialchars($userRole) ?></strong>
-    </div>
+    th {
+        background-color: #eee;
+    }
+    </style>
+</head>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-primary">All Posts</h2>
-        <a class="btn btn-danger btn-sm" href="../../auth/logout.php">🚪 Logout</a>
-    </div>
+<body>
+    <h2>Welcome, User!</h2>
 
-    <?php if (isset($_SESSION['msg'])): ?>
-    <div class="message">
-        <?= $_SESSION['msg'];
-            unset($_SESSION['msg']); ?>
-    </div>
-    <?php endif; ?>
+    <p><strong>Email:</strong> <?php echo htmlspecialchars($userEmail); ?></p>
+    <p><strong>Role:</strong> <?php echo htmlspecialchars($userRole); ?></p>
 
-    <?php if (isset($_SESSION['user_email'])): ?>
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <li><a class="dropdown-item text-danger" href="../../auth/logout.php">Logout</a></li>
 
-        <a href="../../index.php?action=create" class="btn btn-success btn-sm">➕ Add New Post</a>
-    </div>
-    <?php endif; ?>
+    <hr>
 
+    <h3>All Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>phone</th>
+                <th>Role</th>
 
-    <?php if (!empty($posts) && is_array($posts)): ?>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped bg-white shadow rounded">
-            <thead class="table-dark">
-                <tr>
-                    <th width="5%">#</th>
-                    <th>Title</th>
-                    <th>Body</th>
-                    <th>Date</th>
-                    <th>Posted By</th>
-                    <th width="15%">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($posts as $index => $post): ?>
-                <tr>
-                    <td><?= $index + 1 ?></td>
-                    <td><?= htmlspecialchars($post['title']) ?></td>
-                    <td><?= nl2br(htmlspecialchars($post['body'])) ?></td>
-                    <td><?= htmlspecialchars($post['date']) ?></td>
-                    <td><?= htmlspecialchars($post['user_name']) ?></td>
-                    <td>
-                        <a href="../../index.php?action=view&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-primary">
-                            view</a>
-                        <a href="../../index.php?action=edit&id=<?= $post['post_id'] ?>"
-                            class="btn btn-sm btn-primary">✏️
-                            Edit</a>
-                        <a href="?action=delete&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-danger"
-                            onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?php else: ?>
-    <div class="alert alert-warning text-center">
-        No posts found.
-    </div>
-    <?php endif; ?>
-</div>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($users as $user): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($user['user_id']); ?></td>
+                <td><?php echo htmlspecialchars($user['name']); ?></td>
+                <td><?php echo htmlspecialchars($user['email']); ?></td>
+                <td><?php echo htmlspecialchars($user['phone']); ?></td>
+                <td><?php echo htmlspecialchars($user['role']); ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HoA9+Ph3sGGyC22sBKljN5pT0zg+HgMD9gNopOEowTxQ8AenxR0bK25NzF8z6c4N" crossorigin="anonymous">
-</script>
+</html>

@@ -18,35 +18,22 @@ class Post
     public function create()
     {
         // session_start();
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = $_POST['title'];
-            $body = $_POST['body'];
-            $date = $_POST['date'];
+            $title = $_POST['title'] ?? '';
+            $body = $_POST['body'] ?? '';
+            $date = $_POST['date'] ?? '';
+            $user_id = $_POST['userid'] ?? 0;
 
-            // ✅ Make sure session user_id is set
-            if (isset($_SESSION['user_email'])) {
-                $user_id = $_SESSION['user_id'];
-            } else {
-                $_SESSION['msg'] = 'You must be logged in to create a post.';
-                header('Location: auth/login.php');
-                exit;
-            }
-
-            $result = $this->model->create($title, $body, $date, $user_id);
-            if ($result) {
+            if ($this->model->create($title, $body, $date, $user_id)) {
                 $_SESSION['msg'] = 'Post created successfully!';
-                header('Location: views/post/user.php');
+                header('Location: index.php');
                 exit;
             } else {
                 $_SESSION['msg'] = 'Failed to create post.';
-                header('Location: index.php?action=create');
             }
-        } else {
-            include __DIR__ . '/../views/post/create.php';
         }
+        include __DIR__ . '/../views/post/create.php';
     }
-
 
     public function login()
     {
@@ -156,47 +143,21 @@ class Post
 
     public function view()
     {
-        // // session_start();
-        // if (isset($_GET['id'])) {
-        //     $id = $_GET['id'];
-        //     $postDetails = $this->model->readOne($id);
-        //     include __DIR__ . '/../views/post/view.php';
-        // } else {
-        //     $_SESSION['msg'] = 'Invalid post ID.';
-        //     header('Location: index.php');
-        //     exit;
-        // }
-
-        //  session_start(); // Make sure the session is started
-
-        if (!isset($_SESSION['user_email'])) {
-            // User is not logged in
-            if (isset($_GET['id'])) {
-                $id = $_GET['id'];
-                $postDetails = $this->model->readOne($id);
-                include __DIR__ . '/../views/post/view.php';
-            } else {
-                $_SESSION['msg'] = 'Invalid post ID.';
-                header('Location: index.php');
-                exit;
-            }
+        // session_start();
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $postDetails = $this->model->readOne($id);
+            include __DIR__ . '/../views/post/view.php';
         } else {
-            // User is logged in
-            if (isset($_GET['id'])) {
-                $id = $_GET['id'];
-                $postDetails = $this->model->readOne($id);
-                include __DIR__ . '/../views/post/view.php';
-            } else {
-                $_SESSION['msg'] = 'Invalid post ID.';
-                header('Location: views/post/user.php');
-                exit;
-            }
+            $_SESSION['msg'] = 'Invalid post ID.';
+            header('Location: index.php');
+            exit;
         }
     }
 
     public function update()
     {
-        // session_start();
+        session_start();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_GET['id'] ?? 0;
             $title = $_POST['title'] ?? '';
@@ -205,8 +166,7 @@ class Post
 
             if ($this->model->update($id, $title, $body, $date)) {
                 $_SESSION['msg'] = 'Post updated successfully!';
-                // header('Location: index.php');
-                header('Location: views/post/user.php');
+                header('Location: index.php');
                 exit;
             } else {
                 $_SESSION['msg'] = 'Failed to update post.';
