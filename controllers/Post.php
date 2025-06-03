@@ -1,5 +1,14 @@
 <?php
 require_once __DIR__ . '/../models/post_model.php';
+$postController = new Post();
+
+$selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+
+if ($selectedCategoryId) {
+    $posts = $postController->getPostsByCategory($selectedCategoryId);
+} else {
+    $posts = $postController->read(); // Fallback to all posts
+}
 
 class Post
 {
@@ -10,6 +19,8 @@ class Post
         $this->model = new post_model();
     }
 
+
+
     public function read()
     {
         return $this->model->read();
@@ -17,15 +28,28 @@ class Post
 
     public function create()
     {
-        // session_start();
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = $_POST['title'];
-            $body = $_POST['body'];
+            // $body = $_POST['body'];
+            $body =  strip_tags($_POST['body'] ?? '');
             $date = $_POST['date'];
+            $category = $_POST['category'];
 
-            // ✅ Make sure session user_id is set
-            if (isset($_SESSION['user_email'])) {
+            // echo "<pre>";
+            // print_r($_POST);
+            // print_r($_SESSION['user_email']);
+            // echo "</pre>";
+            // exit;
+
+            // Check if user is logged in
+            if (isset($_SESSION['user_email']) && isset($_SESSION['user_id'])) {
+                // echo "<pre>";
+                // print_r($_SESSION['user_id']);
+                // print_r($_SESSION['user_email']);
+                // echo "</pre>";
+                // exit;
+
+
                 $user_id = $_SESSION['user_id'];
             } else {
                 $_SESSION['msg'] = 'You must be logged in to create a post.';
@@ -33,15 +57,26 @@ class Post
                 exit;
             }
 
-            $result = $this->model->create($title, $body, $date, $user_id);
-            if ($result) {
-                $_SESSION['msg'] = 'Post created successfully!';
-                header('Location: views/post/user.php');
-                exit;
+            // Handle image upload
+            $imageName = $_FILES['image']['name'];
+            $imageTmp = $_FILES['image']['tmp_name'];
+            $uploadPath = 'uploads/' . basename($imageName);
+
+            if (move_uploaded_file($imageTmp, $uploadPath)) {
+                // Call model to create post
+                $result = $this->model->create($title, $body, $date, $category, $uploadPath, $user_id);
+                if ($result) {
+                    $_SESSION['msg'] = 'Post created successfully!';
+                    header('Location: views/post/user.php');
+                    exit;
+                } else {
+                    $_SESSION['msg'] = 'Failed to create post.';
+                }
             } else {
-                $_SESSION['msg'] = 'Failed to create post.';
-                header('Location: index.php?action=create');
+                $_SESSION['msg'] = 'Image upload failed.';
             }
+
+            header('Location: index.php?action=create');
         } else {
             include __DIR__ . '/../views/post/create.php';
         }
@@ -55,24 +90,29 @@ class Post
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
-            // echo "POST email: $email<br>";
-            // echo "POST password: $password<br>";
-            // $user = $this->model->login($email, $password);
-            // var_dump($user);
-            // exit;
-
             if (empty($email) || empty($password)) {
                 $_SESSION['error'] = "Please fill in all fields!";
                 header("Location: auth/login.php");
                 exit;
             }
-
             $user = $this->model->login($email, $password);
+
+            // var_dump($user);
+            // die;
 
             if ($user) {
                 $_SESSION['user'] = $user;
                 $_SESSION['user_email'] = $user['email'];
                 $_SESSION['user_role'] = $user['role'];
+                $_SESSION['user_id'] = $user['user_id'];
+
+                // echo "<pre>";
+                // print_r($user['user_id']);
+                // echo "<br>";
+                // print_r($user['email']);
+                // echo "</pre>";
+                // exit;
+
 
                 // Redirect based on role
                 if ($user['role'] === 'admin') {
@@ -233,7 +273,7 @@ class Post
             } else {
                 $_SESSION['msg'] = 'Failed to delete post.';
             }
-            header('Location: index.php');
+            header('Location: views/post/user.php');
             exit;
         }
     }
@@ -241,5 +281,49 @@ class Post
     public function getUserByEmail($email)
     {
         return $this->model->getUserByEmail($email);
+    }
+
+    // public function getPostsByCategory($categoryId)
+    // {
+    //     // SQL query using a placeholder for prepared statement
+    //     $sql = "SELECT posts.*, users.name AS user_name
+    //         FROM posts 
+    //         JOIN users ON posts.user_id = users.id 
+    //         WHERE posts.category_id = ?";
+
+    //     // Prepare the statement
+    //     $stmt = $this->model->prepare($sql);
+
+    //     // Check if preparation was successful
+    //     if (!$stmt) {
+    //         die("Prepare failed: " . $this->model->error);
+    //     }
+
+    //     // Bind the parameter (i = integer)
+    //     $stmt->bind_param("i", $categoryId);
+
+    //     // Execute the statement
+    //     $stmt->execute();
+
+    //     // Get the result set
+    //     $result = $stmt->get_result();
+
+    //     // Fetch all posts as an associative array
+    //     $posts = [];
+    //     if ($result && $result->num_rows > 0) {
+    //         while ($row = $result->fetch_assoc()) {
+    //             $posts[] = $row;
+    //         }
+    //     }
+
+    //     // Close the statement
+    //     $stmt->close();
+
+    //     return $posts;
+    // }
+
+    public function getPostsByCategory($categoryId)
+    {
+        return $this->model->getPostsByCategory($categoryId);
     }
 }

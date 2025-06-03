@@ -5,7 +5,7 @@ class post_model extends Model
 {
     private $table = 'posts';
 
-
+    // ✅ User Authentication
     public function login($email, $password)
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -17,10 +17,7 @@ class post_model extends Model
 
         return $user;
 
-        // if ($user && password_verify($password, $user['password'])) {
-        //     return $user; // Successful login
-        // }
-        return false; // Invalid login
+        return false;
     }
 
     public function checkUserExists($email)
@@ -43,21 +40,7 @@ class post_model extends Model
         return $success;
     }
 
-
-    public function read_user()
-    {
-        $query = "SELECT * FROM users ORDER BY user_id ASC";
-        $result = $this->conn->query($query);
-        if (!$result) {
-            die("Query failed: " . $this->conn->error);
-        }
-        $data = [];
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
+    // ✅ Post CRUD
     public function read()
     {
         $query = "SELECT posts.*, users.name AS user_name 
@@ -74,15 +57,6 @@ class post_model extends Model
         return $data;
     }
 
-    public function create($title, $body, $date, $user_id)
-    {
-        $stmt = $this->conn->prepare("INSERT INTO posts (title, body, date, user_id) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("sssi", $title, $body, $date, $user_id);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
-    }
-
     public function readOne($id)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE post_id = ? LIMIT 1";
@@ -93,6 +67,15 @@ class post_model extends Model
         $row = $result->fetch_assoc();
         $stmt->close();
         return $row;
+    }
+
+    public function create($title, $body, $date, $category_id, $image, $user_id)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO posts (title, body, date, category_id, image, user_id) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $title, $body, $date, $category_id, $image, $user_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
 
     public function update($id, $title, $body, $date)
@@ -113,6 +96,18 @@ class post_model extends Model
         return $result;
     }
 
+    // ✅ Categories
+    public function getAllCategories()
+    {
+        $stmt = $this->conn->prepare("SELECT category_id, name FROM categories");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $categories = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $categories;
+    }
+
+    // ✅ Users
     public function getUserByEmail($email)
     {
         $query = "SELECT user_id, name FROM users WHERE email = ?";
@@ -125,7 +120,18 @@ class post_model extends Model
         return $user;
     }
 
-    // New methods for user management
+    public function getUserById($user_id)
+    {
+        $query = "SELECT user_id, name, email, phone, role FROM users WHERE user_id = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
+
     public function getAllUsers()
     {
         $query = "SELECT user_id, name, email, phone, role FROM users ORDER BY user_id ASC";
@@ -137,18 +143,6 @@ class post_model extends Model
             }
         }
         return $users;
-    }
-
-    public function getUserById($user_id)
-    {
-        $query = "SELECT user_id, name, email, phone, role FROM users WHERE user_id = ? LIMIT 1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-        $stmt->close();
-        return $user;
     }
 
     public function createUser($name, $email, $password, $phone, $role)
@@ -185,7 +179,21 @@ class post_model extends Model
         return $result;
     }
 
-    // For testing
+    // ✅ Testing
+    public function read_user()
+    {
+        $query = "SELECT * FROM users ORDER BY user_id ASC";
+        $result = $this->conn->query($query);
+        if (!$result) {
+            die("Query failed: " . $this->conn->error);
+        }
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
     public function readtry()
     {
         $query = "SELECT * FROM users";
@@ -195,5 +203,21 @@ class post_model extends Model
             $data[] = $row;
         }
         return $data;
+    }
+
+    public function getPostsByCategory($categoryId)
+    {
+        $stmt = $this->conn->prepare("SELECT posts.*, users.name AS user_name FROM posts 
+        JOIN users ON posts.user_id = users.user_id 
+        WHERE category_id = ?");
+        $stmt->bind_param("i", $categoryId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $posts = [];
+        while ($row = $result->fetch_assoc()) {
+            $posts[] = $row;
+        }
+        return $posts;
     }
 }

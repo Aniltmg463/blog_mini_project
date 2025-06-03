@@ -26,16 +26,23 @@ project/
 
 echo "<pre>";
 print_r($posts);
+die;
 echo "</pre>";
+
+var_dump($user);
+exit;
 
 
 
 Posts:
 post_id pk
 user_id fk
+category_id fk
 title 
 body
 date
+image
+
 ; created_id
 ; updated_id
 
@@ -62,6 +69,10 @@ category_id pk
 
 Categories:
 category_id pk
+name
 category_url unique
-category_name
 category_description
+
+note:
+$body =  strip_tags($_POST['body'] ?? ''); //to remove <p> tag in summer note by default
+        
