@@ -3,31 +3,22 @@
 This is a simple blog CRUD application built using PHP and MySQL. It follows the MVC (Model-View-Controller) architecture pattern.
 # Project Structure
 project/
-├──auth 
-│ └──AuthInterface.php
-│ ├── User.php
-│ ├── Student.php
-│ ├── login.php
-│ ├── login-process.php
-│ ├── logout.php
-│ ├── signup.php
-│ ├── signup-process
-├── core # Database config
-│ └──Model.php
+├── auth/ # Database config
+│ └── AuthInterface.php,login.php,login-process.php,logout.php,,signup.php ,signup-process.php, Student.php, User.php
+├── models # 
+│ └──post_model.php
 │
 ├── controllers/ # Controller classes
 │ └── Post.php
 │
 ├── models/ # Model classes
+│ ├── CategoryModel.php
 │ └── post_models.php
-│ └── CategoryModels.php
 │
 ├── views/ # View files (HTML/PHP)
-│ ├── post/ ->create.php,edit.php
-│ ├── layout/header.php, footer.php
+│ ├── post/ ->create.php,edit.php,view.php,user.php
 │ ├── partials/alert.php
 │ ├── index.php
-│ ├── home.php
 │ └── layouts/ ->header.php,footer.php
 │
 └── index.php # Entry point
@@ -35,21 +26,23 @@ project/
 
 echo "<pre>";
 print_r($posts);
+die;
 echo "</pre>";
 
- <?php 
- echo "<pre>";
- print_r($category);
- echo "</pre>"; 
- ?>
+var_dump($user);
+exit;
+
 
 
 Posts:
 post_id pk
 user_id fk
+category_id fk
 title 
 body
 date
+image
+
 ; created_id
 ; updated_id
 
@@ -76,6 +69,10 @@ category_id pk
 
 Categories:
 category_id pk
+name
 category_url unique
-category_name
 category_description
+
+note:
+$body =  strip_tags($_POST['body'] ?? ''); //to remove <p> tag in summer note by default
+        

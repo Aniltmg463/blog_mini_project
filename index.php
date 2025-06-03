@@ -1,44 +1,51 @@
 <?php
 session_start();
 
-//auth session
+//old auth
 // if (!isset($_SESSION['email'])) {
 //     header('Location: auth/login.php');
 //     exit();
 // }
 
+//new auth
+// session_start();
+// if (!isset($_SESSION['user'])) {
+//     header('Location: auth/login.php');
+//     exit();
+// }
 
 require_once 'controllers/Post.php';
-$post = new Post();
+require_once 'models/post_model.php';
 
-$action = isset($_GET['action']) ? $_GET['action'] : 'home';
+$post = new Post();
+$action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($action) {
-
     case 'login':
-        // $posts = $post->login_process();
-        include 'auth/login.php';
+        $post->login();
         break;
-
+    case 'signup':
+        $post->signup();
+        break;
+    case 'view':
+        $post->view();
+        break;
     case 'create':
-        $post =  $post->create();
+        $post->create();
         break;
-
     case 'edit':
         $post->update();
         break;
-
     case 'delete':
         $post->delete();
         break;
-
-    case 'index':
-        $posts = $post->read();
-        include 'views/index.php';
+    case 'user':
+        $post->read_user();
+        // include 'views/index.php';
         break;
 
     default:
-        // $posts = $post->home();
-        include 'views/home.php';
+        $posts = $post->read();
+        include 'views/index.php';
         break;
 }

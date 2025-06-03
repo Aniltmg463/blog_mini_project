@@ -2,8 +2,9 @@
 require_once 'models/post_model.php';
 
 $db = new post_model();
-$email = $_SESSION['email'] ?? '';
+$email = $_SESSION['user_email'] ?? '';
 $user = $db->getUserByEmail($email);
+$categories = $db->getAllCategories();
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +26,7 @@ $user = $db->getUserByEmail($email);
     <div class="container py-5">
         <h2 class="mb-4 text-center">Create New Blog Post</h2>
 
-        <form method="post" action="?action=create">
+        <form method="post" action="?action=create" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
                 <input type="text" id="title" name="title" class="form-control" placeholder="Enter post title" required>
@@ -40,6 +41,26 @@ $user = $db->getUserByEmail($email);
                 <label for="date" class="form-label">Date:</label>
                 <input type="date" id="date" name="date" class="form-control" required>
             </div>
+
+            <!-- Category Name field -->
+            <div class="mb-3">
+                <label for="category" class="form-label">Category Name:</label>
+                <select id="category" name="category" class="form-select" required>
+                    <option value="">Select a category</option>
+                    <?php foreach ($categories as $cat): ?>
+                        <option value="<?= htmlspecialchars($cat['category_id']) ?>">
+                            <?= htmlspecialchars($cat['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Image field -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" id="image" name="image" class="form-control">
+            </div>
+
 
             <input type="hidden" name="userid" value="<?= htmlspecialchars($user['user_id']) ?>">
 

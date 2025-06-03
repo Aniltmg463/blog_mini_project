@@ -43,14 +43,14 @@ session_start();
 
     <h2>Signup</h2>
 
-    <?php if (isset($_SESSION['msg'])): ?>
+    <?php if (isset($_SESSION['error'])): ?>
     <div class="message">
-        <?= $_SESSION['msg'];
-            unset($_SESSION['msg']); ?>
+        <?= $_SESSION['error'];
+            unset($_SESSION['error']); ?>
     </div>
     <?php endif; ?>
 
-    <form method="POST" action="signup-process.php">
+    <form method="POST" action="../index.php?action=signup">
         <label for="name">Full Name:</label>
         <input type="text" name="name" required placeholder="Enter full name">
 
@@ -59,6 +59,13 @@ session_start();
 
         <label for="password">Password:</label>
         <input type="password" name="password" required placeholder="Enter password">
+        <div class="mb-4">
+            <label class="block text-gray-700">Select Role</label>
+            <select name="role" class="w-full p-2 border rounded" required>
+                <option value="student">Student</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
 
         <input type="submit" value="Register">
     </form>
