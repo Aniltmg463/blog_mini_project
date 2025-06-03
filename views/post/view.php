@@ -8,7 +8,6 @@
         <?php endif; ?>
     </div>
 
-
     <?php if ($postDetails): ?>
     <div class="card shadow">
         <div class="card-body">
@@ -16,6 +15,14 @@
             <p class="text-muted mb-2">
                 Posted on <?= date('F j, Y', strtotime($postDetails['date'])) ?>
             </p>
+
+            <?php if (!empty($postDetails['image'])): ?>
+            <div class="mb-3">
+                <img src="<?= htmlspecialchars($postDetails['image']) ?>" alt="Post Image"
+                    class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+            </div>
+            <?php endif; ?>
+
             <hr>
             <div class="card-text">
                 <?= nl2br($postDetails['body']) ?>

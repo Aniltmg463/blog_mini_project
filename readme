@@ -11,6 +11,8 @@ project/
 ├── controllers/ # Controller classes
 │ └── Post.php
 │
+├── uploads/ # Controller classes
+│
 ├── models/ # Model classes
 │ ├── CategoryModel.php
 │ └── post_models.php

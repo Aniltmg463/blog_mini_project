@@ -4,6 +4,11 @@ $postController = new Post();
 
 $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
 
+// echo '<pre>';
+// var_dump($selectedCategoryId);
+// echo '</pre>';
+// die;
+
 if ($selectedCategoryId) {
     $posts = $postController->getPostsByCategory($selectedCategoryId);
 } else {
@@ -196,19 +201,6 @@ class Post
 
     public function view()
     {
-        // // session_start();
-        // if (isset($_GET['id'])) {
-        //     $id = $_GET['id'];
-        //     $postDetails = $this->model->readOne($id);
-        //     include __DIR__ . '/../views/post/view.php';
-        // } else {
-        //     $_SESSION['msg'] = 'Invalid post ID.';
-        //     header('Location: index.php');
-        //     exit;
-        // }
-
-        //  session_start(); // Make sure the session is started
-
         if (!isset($_SESSION['user_email'])) {
             // User is not logged in
             if (isset($_GET['id'])) {
