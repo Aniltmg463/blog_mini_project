@@ -199,6 +199,7 @@ class Post
     }
 
 
+
     public function view()
     {
         if (!isset($_SESSION['user_email'])) {

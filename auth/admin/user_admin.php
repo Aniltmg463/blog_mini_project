@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     $_SESSION['msg'] = "Access denied. Admins only.";
     header("Location: ../login.php");
     exit;

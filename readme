@@ -26,6 +26,14 @@ project/
 └── index.php # Entry point
 
 
+| Component             | Purpose                                               |
+| --------------------- | ----------------------------------------------------- |
+| `Model.php`           | Establishes the MySQLi DB connection                  |
+| `User_model.php`      | Contains functions `checkUserExists()` and `signup()` |
+| `User_controller.php` | Validates and processes the signup form               |
+
+
+
 echo "<pre>";
 print_r($posts);
 die;
