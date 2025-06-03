@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/User.php';
 
-class Student extends User
+class Member extends User
 {
     public function login($email, $password): bool
     {

@@ -1,19 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/post_model.php';
-$postController = new Post();
-
-$selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
-
-// echo '<pre>';
-// var_dump($selectedCategoryId);
-// echo '</pre>';
-// die;
-
-if ($selectedCategoryId) {
-    $posts = $postController->getPostsByCategory($selectedCategoryId);
-} else {
-    $posts = $postController->read(); // Fallback to all posts
-}
+require_once __DIR__ . '/../models/PostModel.php';
 
 class Post
 {
@@ -21,10 +7,8 @@ class Post
 
     public function __construct()
     {
-        $this->model = new post_model();
+        $this->model = new PostModel();
     }
-
-
 
     public function read()
     {
@@ -318,4 +302,19 @@ class Post
     {
         return $this->model->getPostsByCategory($categoryId);
     }
+}
+
+$postController = new Post();
+
+$selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+
+// echo '<pre>';
+// var_dump($selectedCategoryId);
+// echo '</pre>';
+// die;
+
+if ($selectedCategoryId) {
+    $posts = $postController->getPostsByCategory($selectedCategoryId);
+} else {
+    $posts = $postController->read(); // Fallback to all posts
 }

@@ -1,11 +1,14 @@
 <?php
 require_once __DIR__ . '/../core/Model.php';
 
-class Category extends Model
+class Category
 {
+    private $conn;
+
     public function __construct()
     {
-        parent::__construct(); // calls the Model constructor to initialize $conn
+        $model = new Model();
+        $this->conn = $model->getConnection();
     }
 
     public function getAllCategories()

@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     exit;
 }
 
-require_once '../../models/post_model.php';
-$post_model = new post_model();
+require_once '../../models/PostModel.php';
+$post_model = new PostModel();
 
 if (!isset($_GET['id'])) {
     $_SESSION['msg'] = "User ID not provided.";

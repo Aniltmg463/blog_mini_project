@@ -1,21 +1,8 @@
 <?php
 session_start();
 
-//old auth
-// if (!isset($_SESSION['email'])) {
-//     header('Location: auth/login.php');
-//     exit();
-// }
-
-//new auth
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//     header('Location: auth/login.php');
-//     exit();
-// }
-
 require_once 'controllers/Post.php';
-require_once 'models/post_model.php';
+require_once 'models/PostModel.php';
 
 $post = new Post();
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
@@ -41,7 +28,6 @@ switch ($action) {
         break;
     case 'user':
         $post->read_user();
-        // include 'views/index.php';
         break;
 
     default:

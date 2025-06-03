@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../core/Model.php';
 
-class post_model extends Model
+class PostModel extends Model
 {
     private $table = 'posts';
 
@@ -218,6 +218,26 @@ class post_model extends Model
         while ($row = $result->fetch_assoc()) {
             $posts[] = $row;
         }
+        return $posts;
+    }
+
+    public function getAllPosts()
+    {
+        $query = "SELECT posts.*, users.name AS user_name 
+              FROM posts 
+              LEFT JOIN users ON posts.user_id = users.user_id 
+              ORDER BY posts.post_id DESC"; // Optional: latest first
+
+        $result = $this->conn->query($query);
+        if (!$result) {
+            die("Query failed: " . $this->conn->error);
+        }
+
+        $posts = [];
+        while ($row = $result->fetch_assoc()) {
+            $posts[] = $row;
+        }
+
         return $posts;
     }
 }
