@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once __DIR__ . '/../models/User_model.php';
 
 class UserController
@@ -57,7 +57,7 @@ class UserController
             }
         } else {
             // Show the signup form
-            include __DIR__ . '/../auth/signup.php';
+            // include __DIR__ . '/../auth/signup.php';
         }
     }
 }
