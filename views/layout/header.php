@@ -72,7 +72,7 @@
                         </li>
 
 
-                        <?php if (isset($_SESSION['user_email'])): ?>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,7 +95,7 @@
                                 <?php endforeach; ?>
                             </ul>
                         </li>
-                        <?php endif; ?>
+
 
 
                         <li class="nav-item">

@@ -1,53 +1,24 @@
-<?php
-
-include 'layout/header.php';
-require_once __DIR__ . '/../models/CategoryModel.php';
-require_once __DIR__ . '/../models/PostModel.php';
-
-$categoryModel = new CategoryModel();
-$categories = $categoryModel->getAllCategories();
-
-$selectedCategoryId = $_GET['category'] ?? '';
-
-// Fetch posts based on selected category
-$postModel = new PostModel();
-if (!empty($selectedCategoryId)) {
-    $posts = $postModel->getPostsByCategory($selectedCategoryId);
-} else {
-    $posts = $postModel->getAllPosts();
-}
-
+<?php include 'layout/header.php';
 ?>
 
 <!-- Bootstrap 5 CSS CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-
-<!-- Category Filter Form -->
-<div class="container mt-4">
-    <form method="GET" class="mb-4">
-        <div class="row g-2 align-items-center">
-            <div class="col-auto">
-                <label for="category" class="form-label fw-bold">Filter by Category:</label>
-            </div>
-            <div class="col-auto">
-                <select name="category" id="category" class="form-select form-select-sm" onchange="this.form.submit()">
-                    <option value="">All Categories</option>
-                    <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['category_id'] ?>"
-                        <?= $selectedCategoryId == $category['category_id'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($category['name']) ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-    </form>
-</div>
-
-
 <div class="container py-5">
+    <?php if (isset($_SESSION['email'])): ?>
+    <div class="alert alert-info text-center">
+        Welcome: <strong><?= htmlspecialchars($_SESSION['email']) ?></strong>
+    </div>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['email'])): ?>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">All Posts</h2>
+        <a href="?action=create" class="btn btn-success btn-sm">➕ Add New Post</a>
+    </div>
+    <?php endif; ?>
+
     <?php if (!empty($posts) && is_array($posts)): ?>
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped bg-white shadow rounded">
@@ -71,6 +42,13 @@ if (!empty($selectedCategoryId)) {
                     <td><?= htmlspecialchars($p['user_name']) ?></td>
                     <td>
                         <a href="?action=view&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-primary"> view</a>
+
+
+                        <?php if (isset($_SESSION['email'])): ?>
+                        <a href="?action=edit&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-primary">✏️ Edit</a>
+                        <a href="?action=delete&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
