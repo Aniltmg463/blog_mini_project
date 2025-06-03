@@ -194,8 +194,6 @@ class post_model extends Model
         return $data;
     }
 
-
-
     public function readtry()
     {
         $query = "SELECT * FROM users";

@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    $_SESSION['msg'] = "Access denied. Admins only.";
+    $_SESSION['msg'] = "Admin access only.";
     header("Location: ../login.php");
     exit;
 }
@@ -46,10 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2 class="mb-4">Add New User</h2>
         <a href="admin_dashboard.php" class="btn btn-secondary mb-3">Back to Dashboard</a>
         <?php if (isset($_SESSION['msg'])): ?>
-        <div class="alert alert-info">
-            <?= htmlspecialchars($_SESSION['msg']);
+            <div class="alert alert-info">
+                <?= htmlspecialchars($_SESSION['msg']);
                 unset($_SESSION['msg']); ?>
-        </div>
+            </div>
         <?php endif; ?>
         <form method="POST" class="w-50">
             <div class="mb-3">

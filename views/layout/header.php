@@ -8,37 +8,37 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-    .navbar-custom {
-        background: linear-gradient(135deg, #007bff, #6610f2);
-    }
+        .navbar-custom {
+            background: linear-gradient(135deg, #007bff, #6610f2);
+        }
 
-    .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-        padding: 6px 12px;
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.1);
-    }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    .nav-link {
-        margin-left: 10px;
-        padding: 8px 15px;
-        border-radius: 8px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        .nav-link {
+            margin-left: 10px;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: Black !important;
-    }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: Black !important;
+        }
 
-    .navbar-toggler {
-        border: none;
-    }
+        .navbar-toggler {
+            border: none;
+        }
 
-    .navbar-toggler:focus {
-        box-shadow: none;
-    }
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -77,9 +77,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                                 <?php foreach ($categories as $category): ?>
-                                <li><a class="dropdown-item" href="views/category.php?id=<?= $category['id']; ?>">
-                                        <?= htmlspecialchars($category['name']); ?>
-                                    </a></li>
+                                    <li><a class="dropdown-item" href="views/category.php?id=<?= $category['id']; ?>">
+                                            <?= htmlspecialchars($category['name']); ?>
+                                        </a></li>
                                 <?php endforeach; ?>
                             </ul>
                         </li>
@@ -87,27 +87,30 @@
                             <a class="nav-link" href="#">Author</a>
                         </li>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="auth/admin/admin_dashboard.php">Admin Dashboard</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="auth/admin/admin_dashboard.php">Admin Dashboard</a>
+                            </li>
                         <?php endif; ?>
-                        <?php if (isset($_SESSION['email'])): ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle btn btn-warning text-white px-3" href="#"
-                                id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Welcome: <?= htmlspecialchars($_SESSION['email']) ?>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item text-danger" href="auth/logout.php">Logout</a></li>
-                            </ul>
-                        </li>
+
+
+
+                        <?php if (isset($_SESSION['user_email'])): ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle btn btn-warning text-white px-3" href="#"
+                                    id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome: <?= htmlspecialchars($_SESSION['user_email']) ?>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item text-danger" href="../../auth/logout.php">Logout</a></li>
+                                </ul>
+                            </li>
                         <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="auth/login.php">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="auth/signup.php">Register</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="auth/login.php">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="auth/signup.php">Register</a>
+                            </li>
                         <?php endif; ?>
                     </ul>
                 </div>
