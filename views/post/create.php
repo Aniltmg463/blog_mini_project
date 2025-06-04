@@ -1,7 +1,7 @@
 <?php
-require_once 'models/post_model.php';
+require_once 'models/PostModel.php';
 
-$db = new post_model();
+$db = new PostModel();
 $email = $_SESSION['user_email'] ?? '';
 $user = $db->getUserByEmail($email);
 $categories = $db->getAllCategories();
@@ -48,9 +48,9 @@ $categories = $db->getAllCategories();
                 <select id="category" name="category" class="form-select" required>
                     <option value="">Select a category</option>
                     <?php foreach ($categories as $cat): ?>
-                        <option value="<?= htmlspecialchars($cat['category_id']) ?>">
-                            <?= htmlspecialchars($cat['name']) ?>
-                        </option>
+                    <option value="<?= htmlspecialchars($cat['category_id']) ?>">
+                        <?= htmlspecialchars($cat['name']) ?>
+                    </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -81,11 +81,11 @@ $categories = $db->getAllCategories();
 
     <!-- Initialize Summernote -->
     <script>
-        $(document).ready(function() {
-            $('#body').summernote({
-                height: 250
-            });
+    $(document).ready(function() {
+        $('#body').summernote({
+            height: 250
         });
+    });
     </script>
 </body>
 

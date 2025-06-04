@@ -1,5 +1,4 @@
 <?php
-
 include 'layout/header.php';
 require_once __DIR__ . '/../models/CategoryModel.php';
 require_once __DIR__ . '/../models/PostModel.php';
@@ -9,22 +8,21 @@ $categories = $categoryModel->getAllCategories();
 
 $selectedCategoryId = $_GET['category'] ?? '';
 
-// Fetch posts based on selected category
 $postModel = new PostModel();
-if (!empty($selectedCategoryId)) {
-    $posts = $postModel->getPostsByCategory($selectedCategoryId);
-} else {
-    $posts = $postModel->getAllPosts();
-}
 
+// Fetch all posts or by category
+$allPosts = !empty($selectedCategoryId)
+    ? $postModel->getPostsByCategory($selectedCategoryId)
+    : $postModel->getAllPosts();
+
+// Limit displayed posts to 4
+$displayPosts = array_slice($allPosts, 0, 4);
 ?>
 
 <!-- Bootstrap 5 CSS CDN -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-
-<!-- Category Filter Form -->
+<!-- Category Filter -->
 <div class="container mt-4">
     <form method="GET" class="mb-4">
         <div class="row g-2 align-items-center">
@@ -32,7 +30,7 @@ if (!empty($selectedCategoryId)) {
                 <label for="category" class="form-label fw-bold">Filter by Category:</label>
             </div>
             <div class="col-auto">
-                <select name="category" id="category" class="form-select form-select-sm" onchange="this.form.submit()">
+                <select name="category" id="category" class="form-select" onchange="this.form.submit()">
                     <option value="">All Categories</option>
                     <?php foreach ($categories as $category): ?>
                     <option value="<?= $category['category_id'] ?>"
@@ -46,45 +44,51 @@ if (!empty($selectedCategoryId)) {
     </form>
 </div>
 
-
-<div class="container py-5">
-    <?php if (!empty($posts) && is_array($posts)): ?>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped bg-white shadow rounded">
-            <thead class="table-dark">
-                <tr>
-                    <th width="5%">#</th>
-                    <th>Title</th>
-                    <th>Body</th>
-                    <th>Date</th>
-                    <th>Posted By</th>
-                    <th width="15%">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($posts as $index => $p): ?>
-                <tr>
-                    <td><?= $index + 1 ?></td>
-                    <td><?= htmlspecialchars($p['title']) ?></td>
-                    <td><?= nl2br(htmlspecialchars($p['body'])) ?></td>
-                    <td><?= htmlspecialchars($p['date']) ?></td>
-                    <td><?= htmlspecialchars($p['user_name']) ?></td>
-                    <td>
-                        <a href="?action=view&id=<?= $p['post_id'] ?>" class="btn btn-sm btn-primary"> view</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<!-- Blog Post Cards -->
+<div class="container py-4">
+    <div class="row g-4">
+        <?php if (!empty($displayPosts)): ?>
+        <?php foreach ($displayPosts as $post): ?>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <!-- Add image to the card -->
+                <?php if (!empty($post['image'])): ?>
+                <img src="<?= htmlspecialchars($post['image']) ?>" class="card-img-top"
+                    alt="<?= htmlspecialchars($post['title']) ?>" style="height: 400px; object-fit: cover;"
+                    loading="lazy" onerror="this.src='path/to/placeholder-image.jpg'">
+                <?php else: ?>
+                <img src="path/to/placeholder-image.jpg" class="card-img-top" alt="Placeholder Image"
+                    style="height: 200px; object-fit: cover;" loading="lazy">
+                <?php endif; ?>
+                <div class="card-body">
+                    <h5 class="card-title text-truncate"><?= htmlspecialchars($post['title']) ?></h5>
+                    <p class="card-text small"><?= nl2br(htmlspecialchars(substr($post['body'], 0, 120))) ?>...</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <small class="text-muted"><?= htmlspecialchars($post['date']) ?> by
+                        <?= htmlspecialchars($post['user_name']) ?></small>
+                    <a href="?action=view&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+        <?php else: ?>
+        <div class="col-12">
+            <div class="alert alert-warning text-center">No posts found.</div>
+        </div>
+        <?php endif; ?>
     </div>
-    <?php else: ?>
-    <div class="alert alert-warning text-center">
-        No posts found.
+
+    <!-- View All Button -->
+    <?php if (count($allPosts) > 4): ?>
+    <div class="text-center mt-4">
+        <a href="all_posts.php<?= !empty($selectedCategoryId) ? '?category=' . $selectedCategoryId : '' ?>"
+            class="btn btn-outline-secondary">
+            View All Posts
+        </a>
     </div>
     <?php endif; ?>
 </div>
 
-<!-- Bootstrap JS Bundle (with Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HoA9+Ph3sGGyC22sBKljN5pT0zg+HgMD9gNopOEowTxQ8AenxR0bK25NzF8z6c4N" crossorigin="anonymous">
-</script>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
