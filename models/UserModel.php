@@ -3,6 +3,17 @@ require_once __DIR__ . '/../core/Model.php';
 
 class UserModel extends Model
 {
+    // public function login($email, $password)
+    // {
+    //     $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+    //     $stmt->bind_param("s", $email);
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     $user = $result->fetch_assoc();
+    //     $stmt->close();
+    //     return $user;
+    // }
+
     public function login($email, $password)
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -11,8 +22,16 @@ class UserModel extends Model
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
         $stmt->close();
-        return $user;
+
+        // Check if user exists and password is correct
+        if ($user && password_verify($password, $user['password'])) {
+            return $user;
+        }
+
+        // Return false if login fails
+        return false;
     }
+
 
     public function checkUserExists($email)
     {
