@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +34,7 @@ session_start();
         <div class="card shadow">
             <div class="card-body">
                 <h3 class="text-center mb-4">Sign Up</h3>
+
 
                 <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger text-center">
