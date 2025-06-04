@@ -1,10 +1,13 @@
 <?php
-require_once 'models/PostModel.php';
+require_once 'models/UserModel.php';
+require_once 'controllers/Category.php';
 
-$db = new PostModel();
+$db_category = new  Category();
+
+$db = new UserModel();
 $email = $_SESSION['user_email'] ?? '';
 $user = $db->getUserByEmail($email);
-$categories = $db->getAllCategories();
+$categories = $db_category->getAllCategories();
 ?>
 
 <!DOCTYPE html>

@@ -7,9 +7,9 @@
 //     exit;
 // }
 
-require_once '../../models/PostModel.php';
-$post_model = new PostModel();
-$users = $post_model->getAllUsers();
+require_once '../../models/UserModel.php';
+$user_model = new UserModel();
+$users = $user_model->getAllUsers();
 ?>
 
 <!DOCTYPE html>
