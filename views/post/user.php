@@ -3,33 +3,23 @@ require_once __DIR__ . '/../../controllers/Post.php';
 require_once __DIR__ . '/../../controllers/Category.php';
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['user_email'])) {
-    echo "You are not logged in.";
-    exit;
-}
+$userEmail = $_SESSION['user_email'] ?? null;
+$userRole = $_SESSION['user_role'] ?? 'Guest';
 
-$userEmail = $_SESSION['user_email'];
-$userRole = $_SESSION['user_role'] ?? 'N/A';
-
-// Fetch posts instead of users
+// Instantiate controllers
 $postController = new Post();
-$posts = $postController->read(); // assuming this gets all posts
-
 $categoryController = new Category();
+
+// Get all categories
 $categories = $categoryController->getAllCategories();
 
 // Get selected category ID from GET request
 $selectedCategoryId = $_GET['category'] ?? '';
 
 // Fetch posts based on selected category
-if (!empty($selectedCategoryId)) {
-    $posts = $postController->getPostsByCategory($selectedCategoryId);
-} else {
-    $posts = $postController->read();
-}
-
-
+$posts = !empty($selectedCategoryId)
+    ? $postController->getPostsByCategory($selectedCategoryId)
+    : $postController->read();
 ?>
 
 <?php include '../layout/header.php'; ?>
@@ -40,14 +30,18 @@ if (!empty($selectedCategoryId)) {
 
 <div class="container py-5">
 
+    <?php if ($userEmail): ?>
     <div class="alert alert-info text-center">
         Welcome: <strong><?= htmlspecialchars($userEmail) ?></strong> | Role:
         <strong><?= htmlspecialchars($userRole) ?></strong>
     </div>
+    <?php endif; ?>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-primary">All Posts</h2>
+        <?php if ($userEmail): ?>
         <a class="btn btn-danger btn-sm" href="../../auth/logout.php">🚪 Logout</a>
+        <?php endif; ?>
     </div>
 
     <!-- Category Filter Form -->
@@ -80,13 +74,11 @@ if (!empty($selectedCategoryId)) {
     </div>
     <?php endif; ?>
 
-    <?php if (isset($_SESSION['user_email'])): ?>
+    <?php if ($userEmail): ?>
     <div class="d-flex justify-content-between align-items-center mb-4">
-
         <a href="../../index.php?action=create" class="btn btn-success btn-sm">➕ Add New Post</a>
     </div>
     <?php endif; ?>
-
 
     <?php if (!empty($posts) && is_array($posts)): ?>
     <div class="table-responsive">
@@ -110,13 +102,14 @@ if (!empty($selectedCategoryId)) {
                     <td><?= htmlspecialchars($post['date']) ?></td>
                     <td><?= htmlspecialchars($post['user_name']) ?></td>
                     <td>
-                        <a href="../../index.php?action=view&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-primary">
-                            view</a>
+                        <a href="../../index.php?action=view&id=<?= $post['post_id'] ?>"
+                            class="btn btn-sm btn-primary">View</a>
+                        <?php if ($userEmail): ?>
                         <a href="../../index.php?action=edit&id=<?= $post['post_id'] ?>"
-                            class="btn btn-sm btn-primary">✏️
-                            Edit</a>
+                            class="btn btn-sm btn-primary">✏️ Edit</a>
                         <a href="../../?action=delete&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-danger"
                             onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -124,9 +117,7 @@ if (!empty($selectedCategoryId)) {
         </table>
     </div>
     <?php else: ?>
-    <div class="alert alert-warning text-center">
-        No posts found.
-    </div>
+    <div class="alert alert-warning text-center">No posts found.</div>
     <?php endif; ?>
 </div>
 
