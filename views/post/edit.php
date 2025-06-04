@@ -22,7 +22,7 @@
     <div class="container py-5">
         <h2 class="mb-4 text-center">Edit Blog Post</h2>
 
-        <form method="post" action="?action=edit&id=<?= $data['post_id'] ?>">
+        <form method="post" action="?action=edit&id=<?= $data['post_id'] ?>" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
                 <input type="text" id="title" name="title" class="form-control"
@@ -39,6 +39,24 @@
                 <label for="date" class="form-label">Date:</label>
                 <input type="date" id="date" name="date" class="form-control" value="<?= $data['date'] ?>" required>
             </div>
+
+            <!-- <div class="mb-3">
+                <img src="<?php echo $item['file']; ?>" alt="file" class="img-thumbnail mb-2" style="height: 80px;">
+                <label for="file" class="form-label">Add Image <span class="text-danger">*</span></label>
+                <input type="file" name="file" id="file" class="form-control">
+            </div> -->
+
+            <div class="mb-3">
+                <?php if (!empty($data['image'])): ?>
+                <img src="<?= htmlspecialchars($data['image']) ?>" alt="file" class="img-thumbnail mb-2"
+                    style="height: 80px;">
+                <?php endif; ?>
+                <label for="file" class="form-label">Add Image <span class="text-danger">*</span></label>
+                <input type="file" name="file" id="file" class="form-control">
+            </div>
+
+
+
 
             <div class="text-end">
                 <button type="submit" class="btn btn-success">Update Post</button>

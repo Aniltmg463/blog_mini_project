@@ -86,7 +86,41 @@ class Post
             $body = $_POST['body'] ?? '';
             $date = $_POST['date'] ?? '';
 
-            if ($this->model->update($id, $title, $body, $date)) {
+            // Get the existing post data to retrieve the current image
+            $existingPost = $this->model->readOne($id);
+            $existingImage = $existingPost['file'] ?? '';
+
+            $uploadPath = $existingImage; // Default: keep old image
+
+            if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
+                $imageName = $_FILES['file']['name'];
+                $imageTmp = $_FILES['file']['tmp_name'];
+
+                $fileExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                if (in_array($fileExtension, $allowedExtensions)) {
+                    $newFileName = time() . '_' . basename($imageName);
+                    $uploadPath = 'uploads/' . $newFileName;
+
+                    if (move_uploaded_file($imageTmp, $uploadPath)) {
+                        // Delete old image if it exists
+                        if (!empty($existingImage) && file_exists($existingImage)) {
+                            unlink($existingImage);
+                        }
+                    } else {
+                        $_SESSION['msg'] = 'Image upload failed.';
+                        header("Location: index.php?action=edit&id=" . $id);
+                        exit;
+                    }
+                } else {
+                    $_SESSION['msg'] = 'Invalid image file type.';
+                    header("Location: index.php?action=edit&id=" . $id);
+                    exit;
+                }
+            }
+
+            if ($this->model->update($id, $title, $body, $date, $uploadPath)) {
                 $_SESSION['msg'] = 'Post updated successfully!';
                 header('Location: views/post/user.php');
                 exit;
@@ -105,6 +139,36 @@ class Post
             exit;
         }
     }
+
+
+
+    // public function update()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = $_GET['id'] ?? 0;
+    //         $title = $_POST['title'] ?? '';
+    //         $body = $_POST['body'] ?? '';
+    //         $date = $_POST['date'] ?? '';
+
+    //         if ($this->model->update($id, $title, $body, $date)) {
+    //             $_SESSION['msg'] = 'Post updated successfully!';
+    //             header('Location: views/post/user.php');
+    //             exit;
+    //         } else {
+    //             $_SESSION['msg'] = 'Failed to update post.';
+    //         }
+    //     }
+
+    //     if (isset($_GET['id'])) {
+    //         $id = $_GET['id'];
+    //         $data = $this->model->readOne($id);
+    //         include __DIR__ . '/../views/post/edit.php';
+    //     } else {
+    //         $_SESSION['msg'] = 'Invalid post ID.';
+    //         header('Location: index.php');
+    //         exit;
+    //     }
+    // }
 
     public function delete()
     {

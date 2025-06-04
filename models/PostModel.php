@@ -78,14 +78,22 @@ class PostModel extends Model
         return $result;
     }
 
-    public function update($id, $title, $body, $date)
+    // public function update($id, $title, $body, $date)
+    // {
+    //     $stmt = $this->conn->prepare("UPDATE posts SET title = ?, body = ?, date = ? WHERE post_id = ?");
+    //     $stmt->bind_param("sssi", $title, $body, $date, $id);
+    //     $result = $stmt->execute();
+    //     $stmt->close();
+    //     return $result;
+    // }
+
+    public function update($id, $title, $body, $date, $file)
     {
-        $stmt = $this->conn->prepare("UPDATE posts SET title = ?, body = ?, date = ? WHERE post_id = ?");
-        $stmt->bind_param("sssi", $title, $body, $date, $id);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        $stmt = $this->conn->prepare("UPDATE posts SET title = ?, body = ?, date = ?, image = ? WHERE post_id = ?");
+        $stmt->bind_param("ssssi", $title, $body, $date, $file, $id);
+        return $stmt->execute();
     }
+
 
     public function delete($id)
     {
