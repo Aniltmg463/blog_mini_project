@@ -3,72 +3,84 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Signup</title>
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        body {
-            font-family: Arial;
-            padding: 20px;
-        }
+    body {
+        background-color: #f4f4f4;
+    }
 
-        form {
-            width: 300px;
-            margin: auto;
-        }
+    .form-container {
+        max-width: 450px;
+        margin: 80px auto;
+    }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0 15px;
-        }
-
-        input[type="submit"] {
-            padding: 8px 16px;
-            cursor: pointer;
-        }
-
-        .message {
-            color: red;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+    .card {
+        border-radius: 10px;
+    }
     </style>
 </head>
 
 <body>
 
-    <h2>Signup</h2>
+    <div class="container form-container">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="text-center mb-4">Sign Up</h3>
 
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="message">
-            <?= $_SESSION['error'];
-            unset($_SESSION['error']); ?>
+                <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger text-center">
+                    <?= $_SESSION['error'];
+                        unset($_SESSION['error']); ?>
+                </div>
+                <?php endif; ?>
+
+                <form method="POST" action="../index.php?action=signup">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter password"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Select Role</label>
+                        <select name="role" class="form-select" required>
+                            <option value="student">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Register</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    Already have an account? <a href="../index.php?action=login" class="text-decoration-none">Login</a>
+                </div>
+            </div>
         </div>
-    <?php endif; ?>
+    </div>
 
-    <form method="POST" action="../index.php?action=signup">
-        <label for="name">Full Name:</label>
-        <input type="text" name="name" required placeholder="Enter full name">
-
-        <label for="email">Email:</label>
-        <input type="email" name="email" required placeholder="Enter email">
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" required placeholder="Enter password">
-        <div class="mb-4">
-            <label class="block text-gray-700">Select Role</label>
-            <select name="role" class="w-full p-2 border rounded" required>
-                <option value="student">Student</option>
-                <option value="admin">Admin</option>
-            </select>
-        </div>
-
-        <input type="submit" value="Register">
-    </form>
+    <!-- Bootstrap 5 JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
