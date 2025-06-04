@@ -82,7 +82,7 @@ $displayPosts = array_slice($allPosts, 0, 4);
     <!-- View All Button -->
     <?php if (count($allPosts) > 4): ?>
     <div class="text-center mt-4">
-        <a href="all_posts.php<?= !empty($selectedCategoryId) ? '?category=' . $selectedCategoryId : '' ?>"
+        <a href="index.php?action=viewAll<?= !empty($selectedCategoryId) ? '?category=' . $selectedCategoryId : '' ?>"
             class="btn btn-outline-secondary">
             View All Posts
         </a>
