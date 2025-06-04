@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     exit;
 }
 
-require_once '../../models/UserModel.php';
-$user_model = new UserModel();
+require_once '../../models/PostModel.php';
+$post_model = new PostModel();
 
 if (!isset($_GET['id'])) {
     $_SESSION['msg'] = "User ID not provided.";
@@ -16,7 +16,7 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-$user = $user_model->getUserById($_GET['id']);
+$user = $post_model->getUserById($_GET['id']);
 if (!$user) {
     $_SESSION['msg'] = "User not found.";
     header("Location: admin_dashboard.php");
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($name) || empty($email)) {
         $_SESSION['msg'] = "Name and email are required.";
     } else {
-        $result = $user_model->updateUser($user['user_id'], $name, $email, $phone, $role, $password ?: null);
+        $result = $post_model->updateUser($user['user_id'], $name, $email, $phone, $role, $password ?: null);
         if ($result) {
             $_SESSION['msg'] = "User updated successfully.";
             header("Location: admin_dashboard.php");

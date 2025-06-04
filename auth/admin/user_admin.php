@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     exit;
 }
 
-require_once '../../models/UserModel.php';
-$user_model = new UserModel();
+require_once '../../models/PostModel.php';
+$post_model = new PostModel();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($name) || empty($email) || empty($password)) {
         $_SESSION['msg'] = "Name, email, and password are required.";
     } else {
-        if ($user_model->createUser($name, $email, $password, $phone, $role)) {
+        if ($post_model->createUser($name, $email, $password, $phone, $role)) {
             $_SESSION['msg'] = "User created successfully.";
             header("Location: admin_dashboard.php");
             exit;

@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     exit;
 }
 
-require_once '../../models/UserModel.php';
-$user_model = new UserModel();
+require_once '../../models/PostModel.php';
+$post_model = new PostModel();
 
 if (!isset($_GET['id'])) {
     $_SESSION['msg'] = "User ID not provided.";
@@ -16,7 +16,7 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-if ($user_model->deleteUser($_GET['id'])) {
+if ($post_model->deleteUser($_GET['id'])) {
     $_SESSION['msg'] = "User deleted successfully.";
 } else {
     $_SESSION['msg'] = "Failed to delete user.";
