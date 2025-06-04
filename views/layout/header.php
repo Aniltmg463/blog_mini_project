@@ -63,13 +63,27 @@
                 </form>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
+
+                        <?php if (!isset($_SESSION['user_email'])): ?>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page"
-                                href="/spri/day19/grok-test/fullcode/index.php">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                         </li>
+                        <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Post</a>
+                            <a class="nav-link active" aria-current="page" href="user.php">Home</a>
                         </li>
+                        <?php endif; ?>
+
+
+                        <?php if (!isset($_SESSION['user_email'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php?action=viewAll">Post</a>
+                        </li>
+                        <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../index.php?action=viewAll">Post</a>
+                        </li>
+                        <?php endif; ?>
 
 
                         <?php if (isset($_SESSION['user_email'])): ?>

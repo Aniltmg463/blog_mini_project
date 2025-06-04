@@ -6,19 +6,22 @@ project/
 ├── auth/ # Database config
 │ └── AuthInterface.php,login.php,login-process.php,logout.php,,signup.php ,signup-process.php, Student.php, User.php
 ├── models # 
-│ └──post_model.php
+│ └──Post.php, Category.php
 │
 ├── controllers/ # Controller classes
 │ └── Post.php
 │
-├── uploads/ # Controller classes
+├── core/ # Database Model
+│ └── Model.php
 │
 ├── models/ # Model classes
 │ ├── CategoryModel.php
-│ └── post_models.php
+│ └── PostModel.php
+│
+├── uploads/ # Controller classes
 │
 ├── views/ # View files (HTML/PHP)
-│ ├── post/ ->create.php,edit.php,view.php,user.php
+│ ├── post/ ->create.php,edit.php,view.php,user.php,viewAll.php
 │ ├── partials/alert.php
 │ ├── index.php
 │ └── layouts/ ->header.php,footer.php

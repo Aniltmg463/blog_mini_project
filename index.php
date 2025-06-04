@@ -17,6 +17,9 @@ switch ($action) {
     case 'view':
         $post->view();
         break;
+    case 'viewAll':
+        $post->viewAll();
+        break;
     case 'create':
         $post->create();
         break;

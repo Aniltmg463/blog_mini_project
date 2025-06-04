@@ -210,6 +210,13 @@ class Post
         }
     }
 
+    public function viewAll()
+    {
+        // session_start();
+        $posts = $this->model->read();
+        include __DIR__ . '/../views/post/viewAll.php';
+    }
+
     public function update()
     {
         // session_start();
