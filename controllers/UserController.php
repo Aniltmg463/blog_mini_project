@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/PostModel.php';
 
-class User
+class UserController
 {
     private $model;
 
@@ -42,7 +42,7 @@ class User
 
                 if ($user['role'] === 'admin') {
                     header("Location: auth/admin/admin_dashboard.php");
-                } elseif ($user['role'] === 'student') {
+                } elseif ($user['role'] === 'user') {
                     header("Location: views/post/user.php");
                 } else {
                     header("Location: index.php");
@@ -102,6 +102,7 @@ class User
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = trim($_POST['name'] ?? '');
             $email = trim($_POST['email'] ?? '');
+            $phone = trim($_POST['phone'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $role = trim($_POST['role'] ?? '');
 
@@ -111,7 +112,7 @@ class User
             $role = htmlspecialchars($role, ENT_QUOTES, 'UTF-8');
 
             // Validate role
-            if (!in_array($role, ['student', 'admin'])) {
+            if (!in_array($role, ['user', 'admin'])) {
                 $_SESSION['error'] = "Invalid role selected.";
                 header("Location: auth/signup.php");
                 exit;
@@ -152,7 +153,7 @@ my-email@domain.info */
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $created = $this->model->signup($name, $email, $hashedPassword, $role);
+            $created = $this->model->signup($name, $email, $phone, $hashedPassword, $role);
 
             if ($created) {
                 $_SESSION['msg'] = "Signup successful. Please login.";

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../core/Model.php';
 
-class Category
+class CategoryController
 {
     private $conn;
 

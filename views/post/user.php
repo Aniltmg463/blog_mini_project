@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__ . '/../../controllers/Post.php';
-require_once __DIR__ . '/../../controllers/Category.php';
+require_once __DIR__ . '/../../controllers/PostController.php';
+require_once __DIR__ . '/../../controllers/CategoryController.php';
 session_start();
 
 $userEmail = $_SESSION['user_email'] ?? null;
 $userRole = $_SESSION['user_role'] ?? 'Guest';
 
 // Instantiate controllers
-$postController = new Post();
-$categoryController = new Category();
+$postController = new PostController();
+$categoryController = new CategoryController();
 
 // Get all categories
 $categories = $categoryController->getAllCategories();

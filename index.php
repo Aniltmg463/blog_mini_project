@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-require_once 'controllers/Post.php';
-require_once 'controllers/User.php';
+require_once 'controllers/PostController.php';
+require_once 'controllers/UserController.php';
 require_once 'models/PostModel.php';
 require_once 'models/UserModel.php';
 
-$user = new User();
-$post = new Post();
+$user = new UserController();
+$post = new PostController();
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($action) {
