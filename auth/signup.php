@@ -55,6 +55,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" name="phone" class="form-control" placeholder="Enter Phone" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" placeholder="Enter password"
                             required>
@@ -63,7 +68,7 @@
                     <div class="mb-3">
                         <label for="role" class="form-label">Select Role</label>
                         <select name="role" class="form-select" required>
-                            <option value="student">Student</option>
+                            <option value="user">User</option>
                             <option value="admin">Admin</option>
                         </select>
                     </div>

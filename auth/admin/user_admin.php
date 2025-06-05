@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
-    $role = $_POST['role'] ?? 'student';
+    $role = $_POST['role'] ?? 'user';
 
     if (empty($name) || empty($email) || empty($password)) {
         $_SESSION['msg'] = "Name, email, and password are required.";
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="role" class="form-label">Role</label>
                 <select name="role" id="role" class="form-select">
-                    <option value="student">Student</option>
+                    <option value="user">User</option>
                     <option value="admin">Admin</option>
                 </select>
             </div>

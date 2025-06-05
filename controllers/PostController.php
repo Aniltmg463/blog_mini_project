@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/PostModel.php';
 
-class Post
+class PostController
 {
     private $model;
 
@@ -274,7 +274,7 @@ class Post
 }
 
 // Handle category filter logic
-$postController = new Post();
+$postController = new PostController();
 $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
 
 $posts = $selectedCategoryId

@@ -44,10 +44,10 @@ class UserModel extends Model
         return $exists;
     }
 
-    public function signup($name, $email, $hashedPassword, $role)
+    public function signup($name, $email, $phone, $hashedPassword, $role)
     {
-        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $name, $email, $hashedPassword, $role);
+        $stmt = $this->conn->prepare("INSERT INTO users (name, email, phone,password, role) VALUES (?, ?, ?, ?,?)");
+        $stmt->bind_param("sssss", $name, $email, $phone, $hashedPassword, $role);
         $success = $stmt->execute();
         $stmt->close();
         return $success;

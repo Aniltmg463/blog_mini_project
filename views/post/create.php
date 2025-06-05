@@ -1,8 +1,8 @@
 <?php
 require_once 'models/UserModel.php';
-require_once 'controllers/Category.php';
+require_once 'controllers/CategoryController.php';
 
-$db_category = new  Category();
+$db_category = new  CategoryController();
 
 $db = new UserModel();
 $email = $_SESSION['user_email'] ?? '';
