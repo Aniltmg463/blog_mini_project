@@ -71,7 +71,7 @@
                         <?php else: ?>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page"
-                                href="/spri/day23/blog20-redirect/views/post/user.php">Home</a>
+                                href="/spri/day24/blog23/views/post/user.php">Home</a>
                         </li>
                         <?php endif; ?>
 
@@ -82,7 +82,7 @@
                         </li>
                         <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/spri/day23/blog20-redirect/index.php?action=viewAll">Post</a>
+                            <a class="nav-link" href="/spri/day24/blog23/index.php?action=viewAll">Post</a>
                         </li>
                         <?php endif; ?>
 
@@ -132,7 +132,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item text-danger"
-                                        href="/spri/day23/blog20-redirect/auth/logout.php">Logout</a></li>
+                                        href="/spri/day24/blog23/auth/logout.php">Logout</a>
+                                </li>
                             </ul>
                         </li>
                         <?php else: ?>

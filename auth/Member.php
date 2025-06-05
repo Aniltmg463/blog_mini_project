@@ -15,6 +15,7 @@ class Member extends User
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
+            die($_SESSION);
             return true;
         }
 

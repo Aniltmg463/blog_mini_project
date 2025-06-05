@@ -1,7 +1,8 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../controllers/PostController.php';
 require_once __DIR__ . '/../../controllers/CategoryController.php';
-session_start();
+
 
 $userEmail = $_SESSION['user_email'] ?? null;
 $userRole = $_SESSION['user_role'] ?? 'Guest';
@@ -94,17 +95,23 @@ $posts = !empty($selectedCategoryId)
                 </tr>
             </thead>
             <tbody>
+
                 <?php foreach ($posts as $index => $post): ?>
                 <tr>
-                    <td><?= $index + 1 ?></td>
+                    <td><?= $post['post_id'] ?></td>
                     <td><?= htmlspecialchars($post['title']) ?></td>
                     <td><?= nl2br(htmlspecialchars($post['body'])) ?></td>
                     <td><?= htmlspecialchars($post['date']) ?></td>
                     <td><?= htmlspecialchars($post['user_name']) ?></td>
                     <td>
+
                         <a href="../../index.php?action=view&id=<?= $post['post_id'] ?>"
                             class="btn btn-sm btn-primary">View</a>
-                        <?php if ($userEmail): ?>
+
+
+
+                        <?php if ($_SESSION['user_id'] == $post['user_id']): ?>
+
                         <a href="../../index.php?action=edit&id=<?= $post['post_id'] ?>"
                             class="btn btn-sm btn-primary">✏️ Edit</a>
                         <a href="../../?action=delete&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-danger"

@@ -16,6 +16,10 @@ class UserController
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
 
+            // $_session['postEmail'] = $email;
+            // echo  $_session['postEmail'];
+            // die;
+
             // Sanitize email
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
@@ -39,6 +43,12 @@ class UserController
                 $_SESSION['user_email'] = $user['email'];
                 $_SESSION['user_role'] = $user['role'];
                 $_SESSION['user_id'] = $user['user_id'];
+
+
+                // echo "<pre>";
+                // print_r($user);
+                // die;
+                // echo "</pre>";
 
                 if ($user['role'] === 'admin') {
                     header("Location: auth/admin/admin_dashboard.php");
