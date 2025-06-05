@@ -70,7 +70,8 @@
                         </li>
                         <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="user.php">Home</a>
+                            <a class="nav-link active" aria-current="page"
+                                href="/spri/day23/blog20-redirect/views/post/user.php">Home</a>
                         </li>
                         <?php endif; ?>
 
@@ -81,7 +82,7 @@
                         </li>
                         <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="../../index.php?action=viewAll">Post</a>
+                            <a class="nav-link" href="/spri/day23/blog20-redirect/index.php?action=viewAll">Post</a>
                         </li>
                         <?php endif; ?>
 
@@ -130,7 +131,8 @@
                                 Welcome: <?= htmlspecialchars($_SESSION['user_email']) ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item text-danger" href="../../auth/logout.php">Logout</a></li>
+                                <li><a class="dropdown-item text-danger"
+                                        href="/spri/day23/blog20-redirect/auth/logout.php">Logout</a></li>
                             </ul>
                         </li>
                         <?php else: ?>
