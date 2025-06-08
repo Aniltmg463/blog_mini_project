@@ -3,14 +3,14 @@ session_start();
 
 require_once 'controllers/PostController.php';
 require_once 'controllers/UserController.php';
-// require_once 'controllers/AuthController.php';
+require_once 'controllers/AuthController.php';
 require_once 'models/PostModel.php';
 require_once 'models/UserModel.php';
-// require_once 'models/AuthModel.php';
+require_once 'models/AuthModel.php';
 
 $user = new UserController();
 $post = new PostController();
-// $auth = new AuthController();
+$auth = new AuthController();
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($action) {
@@ -22,9 +22,9 @@ switch ($action) {
         $user->signup();
         break;
 
-    // case 'reset-password':
-    //     $auth->resetPassword();
-    //     break;
+    case 'reset-password':
+        $auth->resetPassword();
+        break;
 
     case 'user':
         $user->read_user();

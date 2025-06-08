@@ -1,24 +1,3 @@
-<?php
-require_once '../controllers/AuthController.php';
-
-$error = $success = "";
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller = new AuthController();
-
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $new_password = $_POST['new_password'];
-
-    $message = $controller->resetPassword($email, $phone, $new_password);
-    if ($message === "Password reset successfully.") {
-        $success = $message;
-    } else {
-        $error = $message;
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,14 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">Reset Password</h2>
 
-            <?php if ($error): ?>
-                <div class="alert alert-danger text-center"><?= $error ?></div>
-            <?php endif; ?>
-            <?php if ($success): ?>
-                <div class="alert alert-success text-center"><?= $success ?></div>
+            <?php if (isset($_SESSION['msg'])): ?>
+            <div class="alert alert-success text-center">
+                <?= $_SESSION['msg'];
+                    unset($_SESSION['msg']); ?>
+            </div>
             <?php endif; ?>
 
-            <form method="POST">
+            <form method="POST" action="../index.php?action=reset-password">
                 <div class="mb-3">
                     <label class="form-label">Email</label>
                     <input type="email" name="email" required class="form-control">
@@ -57,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <p class="text-center text-muted mt-3">
-                Go back to <a href="login.php" class="text-decoration-none">Login</a>
+                Go back to <a href="auth/login.php" class="text-decoration-none">Login</a>
             </p>
         </div>
     </div>
