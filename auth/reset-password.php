@@ -1,14 +1,16 @@
 <?php
 require_once '../controllers/AuthController.php';
+
 $error = $success = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $resetobj = new AuthController();
+    $controller = new AuthController();
+
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $new_password = $_POST['new_password'];
 
-    $message = $resetobj->resetPassword($email, $phone, $new_password);
+    $message = $controller->resetPassword($email, $phone, $new_password);
     if ($message === "Password reset successfully.") {
         $success = $message;
     } else {
@@ -17,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- Same HTML as before -->
 <!DOCTYPE html>
 <html lang="en">
 
