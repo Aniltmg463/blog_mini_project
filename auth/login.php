@@ -13,18 +13,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-    body {
-        background-color: #f4f4f4;
-    }
+        body {
+            background-color: #f4f4f4;
+        }
 
-    .card {
-        border-radius: 10px;
-    }
+        .card {
+            border-radius: 10px;
+        }
 
-    .form-container {
-        max-width: 400px;
-        margin: 80px auto;
-    }
+        .form-container {
+            max-width: 400px;
+            margin: 80px auto;
+        }
     </style>
 </head>
 
@@ -36,10 +36,10 @@
                 <h3 class="text-center mb-4">Login</h3>
 
                 <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger text-center">
-                    <?= $_SESSION['error'];
+                    <div class="alert alert-danger text-center">
+                        <?= $_SESSION['error'];
                         unset($_SESSION['error']); ?>
-                </div>
+                    </div>
                 <?php endif; ?>
 
                 <form action="../index.php?action=login" method="POST">
@@ -58,6 +58,14 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>
+
+                <p class="text-center text-gray-600 mt-2">
+                    <a href="reset-password.php" class="text-blue-500 hover:underline">Forgot password?</a>
+
+                    <!-- <a href="forget.php" class="text-blue-500 hover:underline">Forgot password?</a> -->
+                </p>
+
+
 
                 <div class="text-center mt-3">
                     Don't have an account? <a href="../index.php?action=signup" class="text-decoration-none">Sign Up</a>

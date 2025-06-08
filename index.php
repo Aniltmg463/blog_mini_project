@@ -14,27 +14,35 @@ switch ($action) {
     case 'login':
         $user->login();
         break;
+
     case 'signup':
         $user->signup();
+        break;
+
     case 'user':
         $user->read_user();
         break;
-        break;
+
     case 'view':
         $post->view();
         break;
+
     case 'viewAll':
         $post->viewAll();
         break;
+
     case 'create':
         $post->create();
         break;
+
     case 'edit':
         $post->update();
         break;
+
     case 'delete':
         $post->delete();
         break;
+
     default:
         $posts = $post->read();
         include 'views/index.php';

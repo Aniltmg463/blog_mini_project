@@ -4,15 +4,16 @@ This is a simple blog CRUD application built using PHP and MySQL. It follows the
 # Project Structure
 project/
 ├── auth/ # Database config
-│ └── AuthInterface.php,login.php,login-process.php,logout.php,,signup.php ,signup-process.php, Student.php, User.php
-├── models # 
-│ └──Post.php, Category.php
+│ └── login.php,logout.php,signup.php
 │
-├── controllers/ # Controller classes
-│ └── Post.php
+│── controllers/ # Controller classes
+│ └── PostController.php, Category.php, UserController.php
 │
 ├── core/ # Database Model
 │ └── Model.php
+│
+├── models # 
+│ └──PostModel.php, CategoryModel.php, UserModel.php
 │
 ├── models/ # Model classes
 │ ├── CategoryModel.php

@@ -31,19 +31,21 @@ $posts = !empty($selectedCategoryId)
 
 <div class="container py-5">
 
+    <?php include '../partials/alert.php'; ?>
+
     <?php if ($userEmail): ?>
-    <div class="alert alert-info text-center">
-        Welcome: <strong><?= htmlspecialchars($userEmail) ?></strong> | Role:
-        <strong><?= htmlspecialchars($userRole) ?></strong>
-    </div>
+        <div class="alert alert-info text-center">
+            Welcome: <strong><?= htmlspecialchars($userEmail) ?></strong> | Role:
+            <strong><?= htmlspecialchars($userRole) ?></strong>
+        </div>
     <?php endif; ?>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-primary">All Posts</h2>
         <?php if ($userEmail): ?>
         <a class="btn btn-danger btn-sm" href="../../auth/logout.php">🚪 Logout</a>
         <?php endif; ?>
-    </div>
+    </div> -->
 
     <!-- Category Filter Form -->
     <form method="GET" class="mb-4">
@@ -55,10 +57,10 @@ $posts = !empty($selectedCategoryId)
                 <select name="category" id="category" class="form-select form-select-sm">
                     <option value="">All Categories</option>
                     <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['category_id'] ?>"
-                        <?= $selectedCategoryId == $category['category_id'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($category['name']) ?>
-                    </option>
+                        <option value="<?= $category['category_id'] ?>"
+                            <?= $selectedCategoryId == $category['category_id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($category['name']) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -69,62 +71,62 @@ $posts = !empty($selectedCategoryId)
     </form>
 
     <?php if (isset($_SESSION['msg'])): ?>
-    <div class="message">
-        <?= $_SESSION['msg'];
+        <div class="message">
+            <?= $_SESSION['msg'];
             unset($_SESSION['msg']); ?>
-    </div>
+        </div>
     <?php endif; ?>
 
     <?php if ($userEmail): ?>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <a href="../../index.php?action=create" class="btn btn-success btn-sm">➕ Add New Post</a>
-    </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="../../index.php?action=create" class="btn btn-success btn-sm">➕ Add New Post</a>
+        </div>
     <?php endif; ?>
 
     <?php if (!empty($posts) && is_array($posts)): ?>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped bg-white shadow rounded">
-            <thead class="table-dark">
-                <tr>
-                    <th width="5%">#</th>
-                    <th>Title</th>
-                    <th>Body</th>
-                    <th>Date</th>
-                    <th>Posted By</th>
-                    <th width="15%">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped bg-white shadow rounded">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="5%">#</th>
+                        <th>Title</th>
+                        <th>Body</th>
+                        <th>Date</th>
+                        <th>Posted By</th>
+                        <th width="15%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <?php foreach ($posts as $index => $post): ?>
-                <tr>
-                    <td><?= $post['post_id'] ?></td>
-                    <td><?= htmlspecialchars($post['title']) ?></td>
-                    <td><?= nl2br(htmlspecialchars($post['body'])) ?></td>
-                    <td><?= htmlspecialchars($post['date']) ?></td>
-                    <td><?= htmlspecialchars($post['user_name']) ?></td>
-                    <td>
+                    <?php foreach ($posts as $index => $post): ?>
+                        <tr>
+                            <td><?= $post['post_id'] ?></td>
+                            <td><?= htmlspecialchars($post['title']) ?></td>
+                            <td><?= nl2br(htmlspecialchars($post['body'])) ?></td>
+                            <td><?= htmlspecialchars($post['date']) ?></td>
+                            <td><?= htmlspecialchars($post['user_name']) ?></td>
+                            <td>
 
-                        <a href="../../index.php?action=view&id=<?= $post['post_id'] ?>"
-                            class="btn btn-sm btn-primary">View</a>
+                                <a href="../../index.php?action=view&id=<?= $post['post_id'] ?>"
+                                    class="btn btn-sm btn-primary">View</a>
 
 
 
-                        <?php if ($_SESSION['user_id'] == $post['user_id']): ?>
+                                <?php if ($_SESSION['user_id'] == $post['user_id']): ?>
 
-                        <a href="../../index.php?action=edit&id=<?= $post['post_id'] ?>"
-                            class="btn btn-sm btn-primary">✏️ Edit</a>
-                        <a href="../../?action=delete&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-danger"
-                            onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+                                    <a href="../../index.php?action=edit&id=<?= $post['post_id'] ?>"
+                                        class="btn btn-sm btn-primary">✏️ Edit</a>
+                                    <a href="../../?action=delete&id=<?= $post['post_id'] ?>" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this post?')">🗑️ Delete</a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     <?php else: ?>
-    <div class="alert alert-warning text-center">No posts found.</div>
+        <div class="alert alert-warning text-center">No posts found.</div>
     <?php endif; ?>
 </div>
 
