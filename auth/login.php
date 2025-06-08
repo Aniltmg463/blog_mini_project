@@ -60,8 +60,7 @@
                 </form>
 
                 <p class="text-center text-gray-600 mt-2">
-                    <a href="reset-password.php" class="text-blue-500 hover:underline">Forgot
-                        password?</a>
+                    <a href="reset-password.php" class="text-blue-500 hover:underline">Forgot password?</a>
 
                     <!-- <a href="forget.php" class="text-blue-500 hover:underline">Forgot password?</a> -->
                 </p>

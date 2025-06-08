@@ -1,6 +1,5 @@
 <?php
-// $session_start();
-require_once __DIR__ . '/../models/AuthModel.php';
+require_once __DIR__ . '/../models/UserModel.php';
 
 class AuthController
 {
@@ -8,45 +7,45 @@ class AuthController
 
     public function __construct()
     {
-        $this->model = new AuthModel();
+        $this->model = new UserModel();
     }
 
-    // public function resetPassword($email, $phone, $new_password)
-    // {
-    //     $userExists = $this->model->findUserByEmailAndPhone($email, $phone);
-
-    //     if ($userExists === true) {
-    //         $result = $this->model->updatePassword($email, $new_password);
-    //         return $result === true ? "Password reset successfully." : $result;
-    //     } elseif (is_string($userExists)) {
-    //         return $userExists; // Return error string from model
-    //     } else {
-    //         return "Incorrect email or phone.";
-    //     }
-    // }
-
-    public function resetPassword()
+    public function resetPassword($email, $phone, $new_password)
     {
-        // $error = $success = "";
+        $conn = $this->model->getConnection(); // Get protected connection via method
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $new_password = $_POST['new_password'];
-
-            $userExists = $this->model->findUserByEmailAndPhone($email, $phone);
-
-            if ($userExists === true) {
-                $result = $this->model->updatePassword($email, $new_password);
-                $_SESSION['msg'] = $result === true ? "Password reset successfully." : $result;
-            } elseif (is_string($userExists)) {
-                $_SESSION['msg'] = $userExists;
-            } else {
-                $_SESSION['msg'] = "Incorrect email or phone.";
-            }
+        // Step 1: Check if user exists with the given email and phone
+        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND phone = ?");
+        if (!$stmt) {
+            return "Database error: " . $conn->error;
         }
 
-        // Pass $error and $success to the view
-        include 'auth/reset-password.php';
+        $stmt->bind_param("ss", $email, $phone);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->close();
+
+            // Step 2: Hash the new password before updating
+            $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
+
+            $update = $conn->prepare("UPDATE users SET password = ? WHERE email = ?");
+            if (!$update) {
+                return "Failed to prepare update query: " . $conn->error;
+            }
+
+            $update->bind_param("ss", $hashed_password, $email);
+            if ($update->execute()) {
+                $update->close();
+                return "Password reset successfully.";
+            } else {
+                $update->close();
+                return "Failed to reset password.";
+            }
+        } else {
+            $stmt->close();
+            return "Incorrect email or phone.";
+        }
     }
 }
